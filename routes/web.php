@@ -10,9 +10,10 @@ Route::get('/', function (){
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/index2', [HomeController::class, 'index2'])->name('index2');
 Route::post('/home/add', [HomeController::class, 'add'])->name('home.add');
 Route::get('/home/edit/{id}', [HomeController::class, 'edit'])->name('home.edit');
 Route::put('/home/update/{id}', [HomeController::class, 'update'])->name('home.update');
-Route::post('/home/delete/{id}', [HomeController::class, 'delete'])->name('home.delete');
+Route::delete('/home/delete/{id}', [HomeController::class, 'delete'])->name('home.delete');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');

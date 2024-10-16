@@ -6,7 +6,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VertinS | Login</title>
+    <title>Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
@@ -27,8 +27,8 @@ session_start();
             overflow: hidden;
             background-color: white;
         }
-        .right {
-            background: #FFEE31;
+        .left {
+            background: linear-gradient(to bottom left, #427D9D, #164863);
             color: white;
             padding: 60px;
             flex: 1;
@@ -37,17 +37,17 @@ session_start();
             justify-content: center;
             align-items: center;
         }
-        .right h1 {
+        .left h1 {
             margin-top: 0;
             font-size: 36px;
             /* font-weight: 600; */
         }
-        .right p {
+        .left p {
             font-size: 18px;
             /* font-weight: 400;
             margin: 20px 0 0; */
         }
-        .left {
+        .right {
             padding: 60px;
             flex: 1;
             display: flex;
@@ -55,7 +55,7 @@ session_start();
             justify-content: center;
             align-items: center;
         }
-        .left h2 {
+        .right h2 {
             margin-top: 0;
             font-size: 30px;
             font-weight: bold;
@@ -91,6 +91,10 @@ session_start();
 <body>
     <div class="container">
         <div class="left">
+            <h1>Halooo!</h1>
+            <p>Untuk tetap terhubung dengan kami, silahkan masuk dengan akun anda</p>
+        </div>
+        <div class="right">
             <h2>Sign In</h2>
             <form action="{{ route('login') }}" method="post">
                 @csrf
@@ -110,9 +114,6 @@ session_start();
                 </div>
                 <button type="submit" class="btn">Sign In</button>
             </form>
-        </div>
-        <div class="right">
-            
         </div>
     </div>
 </body>

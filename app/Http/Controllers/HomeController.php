@@ -15,6 +15,11 @@ class HomeController extends Controller
         return view('home', compact('admins'));
     }
 
+    public function index2()
+    {
+        return view('index2');
+    }
+
     public function add(Request $request)
     {
         $request->validate([
@@ -67,9 +72,11 @@ class HomeController extends Controller
 
     public function delete($id)
     {
-        $admin = Admins::findOrFail($id);
-        $admin->delete();
-
-        return redirect()->route('home')->with('success', 'Admin deleted successfully.');
+        if ($id == 1) {
+            return redirect()->back()->with('error', 'Cannot delete the main admin.');
+        }
+    
+        Admins::findOrFail($id)->delete();
+        return redirect()->back()->with('success', 'Admin deleted successfully.');
     }
 }

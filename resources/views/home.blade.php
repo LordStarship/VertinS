@@ -36,14 +36,36 @@
             </div>
         @endif
 
-        <h2>Add Admin</h2>
-        <form action="{{ route('home.add') }}" method="POST">
-            @csrf
-            <input type="text" name="name" placeholder="Name" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" id="addPassword" placeholder="Password minimum 8 characters" required>
-            <button type="submit" id="addAdminButton" disabled>Add Admin</button>
-        </form>
+        <!-- Add/Edit Admin Form Section -->
+        <div id="formContainer">
+            <!-- Add Admin Form -->
+            <div id="addContainer">
+                <h2>Add Admin</h2>
+                <form action="{{ route('home.add') }}" method="POST">
+                    @csrf
+                    <input type="text" name="name" placeholder="Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" id="addPassword" placeholder="Password minimum 8 characters" required>
+                    <button type="submit" id="addAdminButton" disabled>Add Admin</button>
+                </form>
+            </div>
+
+            <!-- Edit Admin Form (Hidden by Default) -->
+            <div id="editContainer" style="display:none;">
+                <h2>Edit Admin</h2>
+                <form id="editForm" action="" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" id="editId" name="id">
+                    <input type="text" id="editName" name="name" placeholder="Name" required>
+                    <input type="email" id="editEmail" name="email" placeholder="Email" required>
+                    <input type="password" id="editPassword" name="password" placeholder="New Password (optional)">
+                    <input type="password" id="editPasswordConfirmation" name="password_confirmation" placeholder="Confirm New Password (optional)" disabled>
+                    <button type="submit" id="editAdminButton">Update Admin</button>
+                    <button type="button" onclick="cancelEdit()">Cancel</button>
+                </form>
+            </div>
+        </div>
 
         <h2>Admins List</h2>
         <table>
@@ -63,31 +85,23 @@
                         <td>{{ $admin->email }}</td>
                         <td>
                             <button onclick="editAdmin({{ $admin->id }}, '{{ $admin->name }}', '{{ $admin->email }}')">Edit</button>
-                            <form action="{{ route('home.delete', ['id' => $admin->id]) }}" method="POST" style="display:inline;">
+                            
+                            @if($admin->id != 1)
+                            <!-- Add Delete Button Except for Admin with ID 1 -->
+                            <form action="{{ route('home.delete', $admin->id) }}" method="POST" style="display:inline;">
                                 @csrf
-                                <button type="submit" onclick="return confirm('Are you sure you want to delete this admin?');">Delete</button>
+                                @method('DELETE')
+                                <button type="submit" onclick="return confirm('Are you sure you want to delete this admin?')">Delete</button>
                             </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-
-        <!-- Edit Form -->
-        <div id="editContainer" style="display:none;">
-            <h2>Edit Admin</h2>
-            <form id="editForm" action="" method="POST">
-                @csrf
-                @method('PUT')
-                <input type="hidden" id="editId" name="id">
-                <input type="text" id="editName" name="name" placeholder="Name" required>
-                <input type="email" id="editEmail" name="email" placeholder="Email" required>
-                <input type="password" id="editPassword" name="password" placeholder="New Password (optional)">
-                <input type="password" id="editPasswordConfirmation" name="password_confirmation" placeholder="Confirm New Password (optional)" disabled>
-                <button type="submit" id="editAdminButton">Update Admin</button>
-                <button type="button" onclick="document.getElementById('editContainer').style.display='none'">Cancel</button>
-            </form>
-        </div>
+        <a href="{{ route('index2') }}">
+            <button type="button">Go to Index 2</button>
+        </a>
     </div>
 
     <script>
@@ -136,17 +150,27 @@
         }
 
         function editAdmin(id, name, email) {
+            // Hide the Add Admin form and show the Edit Admin form
+            document.getElementById('addContainer').style.display = 'none';
+            document.getElementById('editContainer').style.display = 'block';
+
+            // Populate the Edit form with current values
             document.getElementById('editId').value = id;
             document.getElementById('editName').value = name;
             document.getElementById('editEmail').value = email;
             document.getElementById('editForm').action = "{{ url('/home/update') }}" + '/' + id; // Update the action URL
-            document.getElementById('editContainer').style.display = 'block'; // Show the form
 
             // Reset password fields and states when opening edit form
             editPasswordField.value = '';
             editPasswordConfirmationField.value = '';
             editPasswordConfirmationField.disabled = true;
             editAdminButton.disabled = false; // Enable the button since password is optional
+        }
+
+        function cancelEdit() {
+            // Hide the Edit Admin form and show the Add Admin form
+            document.getElementById('editContainer').style.display = 'none';
+            document.getElementById('addContainer').style.display = 'block';
         }
     </script>
 </body>
