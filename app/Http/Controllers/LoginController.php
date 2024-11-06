@@ -15,7 +15,7 @@ class LoginController extends Controller
     }
 
     public function login(Request $request)
-        {
+    {
         $this->validate($request, [
             'nameandemail' => 'required',
             'password' => 'required',
@@ -44,18 +44,29 @@ class LoginController extends Controller
             ]);
         }
 
+        // Regenerate session to prevent fixation
+        $request->session()->regenerate();
+
         // Log the user in
         Auth::login($user);
-        session(['loggedUser' => $user]);
 
-        return redirect()->route('home');
+        // Store specific user data in the session
+        session()->put([
+            'username' => $user->name,
+            'useremail' => $user->email,
+        ]);
+
+        return redirect()->route('home')->with('success', 'Welcome back!');
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
+
+        // Clear session data and regenerate token
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('home');
+
+        return redirect()->route('home')->with('success', 'Logged out successfully');
     }
 }

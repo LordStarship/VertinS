@@ -6,114 +6,72 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            width: 900px;
-            height: 500px;
-            display: flex;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            background-color: white;
-        }
-        .left {
-            background: linear-gradient(to bottom left, #427D9D, #164863);
-            color: white;
-            padding: 60px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .left h1 {
-            margin-top: 0;
-            font-size: 36px;
-            /* font-weight: 600; */
-        }
-        .left p {
-            font-size: 18px;
-            /* font-weight: 400;
-            margin: 20px 0 0; */
-        }
-        .right {
-            padding: 60px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .right h2 {
-            margin-top: 0;
-            font-size: 30px;
-            font-weight: bold;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            /* font-size: 14px; */
-        }
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            /* font-size: 14px; */
-        }
-        .btn {
-            background: linear-gradient(to bottom left, #427D9D, #164863);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            /* font-weight: 600; */
-        }
-    </style>
+    @vite('resources/css/app.css')
+    <title>VertinS | Login</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="left">
-            <h1>Halooo!</h1>
-            <p>Untuk tetap terhubung dengan kami, silahkan masuk dengan akun anda</p>
-        </div>
-        <div class="right">
-            <h2>Sign In</h2>
-            <form action="{{ route('login') }}" method="post">
-                @csrf
-                <div class="form-group">
-                    <label for="nameandemail">Email or Username</label>
-                    <input type="text" id="nameandemail" name="nameandemail" required>
-                    @error('nameandemail')
-                        <span class="invalid-feedback">{{ $message }}</span>
-                    @enderror
+    <div class="h-screen overflow-hidden">
+        <div id="login" class="h-full">
+            <div class="flex flex-col w-full h-full">
+                <div class="h-1/6 flex items-center justify-center">
+                    <img class="h-32" src="img/logo.png">
+                    <p class="text-5xl font-bold">VertinS</p>
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                    @error('password')
-                        <span class="invalid-feedback">{{ $message }}</span>
-                    @enderror
+                <div class="flex flex-row justify-evenly w-full h-full items-center">
+                    <div class="w-2/5 h-full">
+                        <div class="flex flex-col h-full justify-center">
+                            <div id="login-top">
+                                <div class="flex flex-col items-center justify-center mb-8">
+                                    <h2 class="text-3xl font-bold">Welcome 👋</h2>
+                                    <p class="text-lg font-normal">Login untuk memasuki dashboard admin.</p>
+                                    @if(session('success'))
+                                        <div class="bg-green-500 text-white p-2 rounded mb-3">
+                                            {{ session('success') }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="flex flex-row">
+                                    <a href="{{ route('index') }}" class="w-1/2">
+                                        <button class="w-full py-2 text-center font-bold text-gray-900 border-b-2 border-primary">
+                                            Login
+                                        </button>
+                                    </a>
+                                    <a href="{{ route('signup.page') }}" class="w-1/2">
+                                        <button class="w-full py-2 text-center font-bold text-gray-500 hover:text-gray-900 transition duration-200">
+                                            Sign Up
+                                        </button>
+                                    </a>  
+                                </div>                    
+                            </div>
+                            <div>
+                                <form id="login-form" class="w-full" action="{{ route('login') }}" method="post"> 
+                                    @csrf
+                                    <div class="py-3">
+                                        <label class="font-medium" for="nameandemail">Name or Email</label>
+                                        <br />
+                                        <input class="mt-2 border border-gray-500 rounded-full py-2 pl-4 w-full" type="text" name="nameandemail" id="nameandemail" placeholder="Enter name or email">
+                                    </div>
+                                    <div class="py-3">
+                                        <label class="font-medium" for="password">Password</label>
+                                        <br />
+                                        <input class="mt-2 border border-gray-500 rounded-full py-2 pl-4 w-full" type="password" name="password" id="password" placeholder="Enter password">
+                                    </div>
+                                    <button class="py-2 w-full border rounded-full bg-primary text-secondary font-bold hover:bg-primary-passive transition duration-200" type="submit" class="btn">Login</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="login-right" class="w-2/5 h-full">
+                        <div class="flex items-center h-full">
+                            <img class="rounded-2xl h-38" src="img/login-pic.jpg">
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn">Sign In</button>
-            </form>
+            </div>  
         </div>
     </div>
 </body>
