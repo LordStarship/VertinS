@@ -56,7 +56,7 @@ class LoginController extends Controller
             'useremail' => $user->email,
         ]);
 
-        return redirect()->route('home')->with('success', 'Welcome back!');
+        return redirect()->route('products')->with('success', 'Welcome back!');
     }
 
     public function logout(Request $request)
@@ -67,6 +67,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('home')->with('success', 'Logged out successfully');
+        return redirect()->route('login')->with('success', 'Logged out successfully');
     }
 }
