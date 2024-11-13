@@ -5,116 +5,211 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>VertinS | Account Info</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
 <body>
     <div class="h-screen flex flex-row">
         <div class="w-2/12 flex flex-col bg-primary">
             <div class="h-1/6 flex flex-row items-center justify-center">
                 <p class="text-secondary text-2xl font-bold">ADMIN LIST</p>
             </div>
-            <div class="h-2/6 flex flex-col items-center justify-center">
-                <div class="w-24 h-24 overflow-hidden">
-                    <img class="object-cover rounded-full w-full h-full" src="img/admin-logo.jpg">
-                </div>
+            <div class="h-1/6 flex flex-col items-center justify-center">
                 <p class="mt-4 text-secondary text-xl font-medium">{{ session('username') }}</p>
                 <p class="mt-4 text-secondary text-lg font-normal">Admin</p>
             </div>
             <div class="h-3/6 flex flex-col items-center justify-center">
-                <a href={{ route('categories')}} class="ml-4 py-1 w-4/5 border border-secondary rounded-md flex flex-row items-center justify-center cursor-pointer">
+                <a href="{{ route('categories')}}" class="ml-4 py-1 w-4/5 border border-secondary rounded-md flex flex-row items-center justify-center cursor-pointer">
                     <img class="w-4" src="img/category-active.png">
                     <p class="ml-6 text-secondary text-md font-light">Category</p>
                 </a>
-                <a href={{ route('products')}} class="ml-4 mt-2 py-1 w-4/5 border bg-secondary rounded-md border-secondary flex flex-row items-center justify-center cursor-pointer">
-                    <img class="w-4" src="img/products-inactive.png">
-                    <p class="ml-6 text-primary text-md font-medium">Products</p>
+                <a href="{{ route('products')}}" class="ml-4 mt-2 py-1 w-4/5 border border-secondary rounded-md flex flex-row items-center justify-center cursor-pointer">
+                    <img class="w-4" src="img/products-active.png">
+                    <p class="ml-6 text-secondary text-md font-light">Products</p>
                 </a>
-                <a class="ml-4 mt-2 py-1 w-4/5 border border-secondary rounded-md flex flex-row items-center justify-center cursor-pointer">
-                    <img class="w-4" src="img/account-info-active.png">
-                    <p class="ml-6 text-secondary text-md font-light">Account Info</p>
+                <a href="{{ route('accounts')}}" class="ml-4 mt-2 py-1 w-4/5 border bg-secondary rounded-md border-secondary flex flex-row items-center justify-center cursor-pointer">
+                    <img class="w-4" src="img/account-info-inactive.png">
+                    <p class="ml-6 text-primary text-md font-medium">Account Info</p>
                 </a>
             </div>
             <div class="h-1/6 flex flex-row items-center justify-center">
-                <a class="flex flex-row cursor-pointer">
-                    <p class="mr-2 text-secondary text-md font-bold">Logout</p>
-                    <img class="w-6" src="img/logout-icon.png">
-                </a>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="flex flex-row cursor-pointer">
+                        <p class="mr-2 text-secondary text-md font-bold">Logout</p>
+                        <img class="w-6" src="img/logout-icon.png">
+                    </button>
+                </form>
             </div>
         </div>
         <div class="p-8 w-10/12 flex flex-col">
-            <div class="h-2/6 flex flex-col">
-                <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">
-                    <p class="text-primary text-3xl font-bold">Product List</p>
-                    <div class="flex flex-row ml-auto">
-                        <input type="text" id="search-input" placeholder="Search..." class="mr-4 pl-4 border border-secondary rounded-md" autocomplete="off">
-                        <a href={{ route('products.create')}} class="px-2 bg-primary rounded-md flex items-center justify-center cursor-pointer">
-                            <p class="  text-secondary text-md font-bold">ADD NEW PRODUCT</p>
-                        </a>
-                    </div>
+            <div class="h-1/6 flex flex-col">
+                <div class="pb-4 w-full border-b-2 border-gray-300">
+                    <p class="text-primary text-3xl font-bold">Account Info</p>
                 </div>
             </div>
-            <div class="h-4/6 overflow-x-auto">
-                <table class="w-full border border-primary">
-                    <thead>
-                        <tr>
-                            <th class="w-1/12"></th>
-                            <th class="w-1/12 text-gray-600">Name</th>
-                            <th class="w-3/12 text-gray-600">Description</th>
-                            <th class="w-2/12 text-gray-600">Tags</th>
-                            <th class="w-2/12 text-gray-600">Price</th>
-                            <th class="w-2/12 text-gray-600">Image</th>
-                            <th class="w-1/12"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($products as $product)
-                        <tr class="mt-8">
-                            <td class="flex justify-center">
-                                <div class="w-16 h-16 overflow-hidden">
-                                    <img class="object-cover rounded-full w-full h-full" src="img/admin-logo.jpg">
-                                </div>
-                            </td>
-                            <td>
-                                <p>{{ $products->name }}</p>
-                            </td>
-                            <td>
-                                <p>{{ $products->description }}</p>
-                            </td>
-                            <td class="flex items-center justify-center">
-                                <div class="background-gray-600">
-                                    <p>{{ $product->categories_count }} Tags Embed </p>
-                                </div>
-                            </td>
-                            <td>
-                                <p>Rp {{ number_format($product->price, 0, ',', '.') }}</p>
-                            </td>
-                            <td>
-                                <div class="background-gray-600">
-                                    <p>{{ $product->pictures_count }} Pictures Embed </p>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="flex items-center justify-center">
-                                    <a class="flex items-center p-2 bg-gray-100 hover:bg-gray-200 rounded-md">
-                                        <img src="img/edit-logo.png" alt="Edit" class="w-5 h-5">
-                                    </a>
-                                    <form  method="POST" class="flex items-center p-2 bg-gray-100 hover:bg-gray-200 rounded-md">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit">
-                                            <img src="img/delete-logo.png" alt="Delete" class="w-5 h-5">
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="h-2/6">
+                <div class="flex flex-col">
+                    <div class="flex flex-row">
+                        <p class="mr-8 text-primary text-lg font-medium">Username</p>
+                        <input class="border border-grey-600 text-primary text-center font-medium" disabled value="{{ session('username') }}"></p>
+                    </div>
+                    <div class="mt-4 flex flex-row">
+                        <p class="mr-8 text-primary text-lg font-medium">Email</p>
+                        <input class="border border-grey-600 text-primary text-center font-medium" disabled value="{{ session('useremail') }}"></p>
+                    </div>
+                    <button onclick="openEditUserModal()" class="w-1/6 mt-4 py-2 bg-primary text-secondary rounded-md">Edit</button>
+                </div>                
+            </div>
+            <div class="h-1/6 flex flex-col">
+                <div class="pb-4 w-full border-b-2 border-gray-300">
+                    <p class="text-primary text-3xl font-bold">Admins List</p>
+                </div>
+            </div>
+            <div class="h-2/6 flex flex-col">
+                <button onclick="openAddAdminModal()" class="mb-4 w-1/6 py-2 bg-primary text-secondary rounded-md">Add Admin</button>
+                <div class="overflow-y-scroll h-full">
+                    <table class="w-full text-left border-collapse border border-gray-300">
+                        <thead class="bg-gray-200">
+                            <tr>
+                                <th class="p-2 border border-gray-300">ID</th>
+                                <th class="p-2 border border-gray-300">Name</th>
+                                <th class="p-2 border border-gray-300">Email</th>
+                                <th class="p-2 border border-gray-300">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($admins as $admin)
+                                @if($admin->id !== 1)
+                                    <tr>
+                                        <td class="p-2 border border-gray-300">{{ $admin->id }}</td>
+                                        <td class="p-2 border border-gray-300">{{ $admin->name }}</td>
+                                        <td class="p-2 border border-gray-300">{{ $admin->email }}</td>
+                                        <td class="p-2 border border-gray-300">
+                                            <button onclick="openEditAdminModal({{ $admin }})" class="mr-2 px-4 py-1 bg-blue-500 text-white rounded-md">Edit</button>
+                                            <button onclick="openDeleteAdminModal({{ $admin->id }})" class="px-4 py-1 bg-red-500 text-white rounded-md">Delete</button>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Admin Modal -->
+        <div id="editUserModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white p-8 rounded-md w-1/3">
+                <h2 class="text-center text-xl font-semibold mb-4">Edit Account Info</h2>
+                <form id="editUserForm" method="POST" action="{{ route('account.update') }}">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-4">
+                        <label for="username" class="block text-primary font-medium">Username</label>
+                        <input id="username" type="text" name="name" class="w-full p-2 border border-gray-300 rounded-md" value="{{ session('username') }}" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-primary font-medium">Email</label>
+                        <input id="email" type="email" name="email" class="w-full p-2 border border-gray-300 rounded-md" value="{{ session('useremail') }}" required>
+                    </div>
+                    <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md">Save</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="addAdminModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white p-8 rounded-md w-1/3">
+                <h2 class="text-center text-xl font-semibold mb-4">Add New Admin</h2>
+                <form id="addAdminForm" method="POST" action="{{ route('admins.store') }}">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="name" class="block text-primary font-medium">Username</label>
+                        <input id="name" type="text" name="name" class="w-full p-2 border border-gray-300 rounded-md" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-primary font-medium">Email</label>
+                        <input id="email" type="email" name="email" class="w-full p-2 border border-gray-300 rounded-md" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="block text-primary font-medium">Password</label>
+                        <input id="password" type="password" name="password" class="w-full p-2 border border-gray-300 rounded-md" required>
+                    </div>
+                    <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md">Add Admin</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Edit Admin Modal -->
+        <div id="editAdminModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white p-8 rounded-md w-1/3">
+                <h2 class="text-center text-xl font-semibold mb-4">Edit Admin</h2>
+                <form id="editAdminForm" method="POST" action="">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-4">
+                        <label for="editAdminName" class="block text-primary font-medium">Name</label>
+                        <input id="editAdminName" type="text" name="name" class="w-full p-2 border border-gray-300 rounded-md" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="editAdminEmail" class="block text-primary font-medium">Email</label>
+                        <input id="editAdminEmail" type="email" name="email" class="w-full p-2 border border-gray-300 rounded-md" required>
+                    </div>
+                    <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md">Save</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Delete Admin Modal -->
+        <div id="deleteAdminModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white p-8 rounded-md w-1/3 text-center">
+                <h2 class="text-xl font-semibold mb-4">Delete Admin</h2>
+                <p>Are you sure you want to delete this admin?</p>
+                <form id="deleteAdminForm" method="POST" action="">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-md">Delete</button>
+                    <button type="button" onclick="closeDeleteAdminModal()" class="mt-4 bg-gray-300 text-black px-4 py-2 rounded-md">Cancel</button>
+                </form>
             </div>
         </div>
     </div>
+    
+    <script>
+        function openAddAdminModal() {
+            document.getElementById('addAdminModal').classList.remove('hidden');
+        }
+
+        function closeAddAdminModal() {
+            document.getElementById('addAdminModal').classList.add('hidden');
+        }
+
+        function openEditUserModal() {
+            document.getElementById('editUserModal').classList.remove('hidden');
+        }
+
+        function closeEditUserModal() {
+            document.getElementById('editUserModal').classList.add('hidden');
+        }
+
+        function openEditAdminModal(id, name, email) {
+                const editAdminForm = document.getElementById('editAdminForm');
+                editAdminForm.action = `/admin/${id}/update`;
+                document.getElementById('editAdminName').value = name;
+                document.getElementById('editAdminEmail').value = email;
+                document.getElementById('editAdminModal').classList.remove('hidden');
+        }
+
+        function closeEditAdminModal() {
+            document.getElementById('editAdminModal').classList.add('hidden');
+        }
+
+        function openDeleteAdminModal(adminId) {
+            document.getElementById('deleteAdminModal').classList.remove('hidden');
+            document.getElementById('deleteAdminForm').action = `/admin/${adminId}`;
+        }
+
+        function closeDeleteAdminModal() {
+            document.getElementById('deleteAdminModal').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>

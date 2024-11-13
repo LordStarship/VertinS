@@ -30,7 +30,7 @@ class CategoriesController extends Controller
         // Create the new category
         $category = new Categories();
         $category->name = $request->input('name');
-        $category->admin_id = Auth::id(); // Assuming the logged-in admin's ID is used
+        $category->admin_id = Auth::guard('web')->id(); // Assuming the logged-in admin's ID is used
         $category->product_id = $request->input('product_id') ?? null;
 
         if ($category->save()) {

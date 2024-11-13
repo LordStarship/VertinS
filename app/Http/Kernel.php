@@ -46,6 +46,7 @@ class Kernel extends HttpKernel
     ];
 
     protected $routeMiddleware = [
+        'auth' => \App\Http\Middleware\Authenticate::class,
         'SessionCheck' => \App\Http\Middleware\SessionCheck::class,
     ];
 

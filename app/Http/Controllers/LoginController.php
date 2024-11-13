@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
     public function index()
     {
-        return view('login.index');
+        return view('login');
     }
 
     public function login(Request $request)
@@ -56,14 +56,13 @@ class LoginController extends Controller
             'useremail' => $user->email,
         ]);
 
-        return redirect()->route('products')->with('success', 'Welcome back!');
+        return redirect()->route('products');
     }
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        Auth::guard('web')->logout();
 
-        // Clear session data and regenerate token
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

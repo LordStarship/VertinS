@@ -42,7 +42,7 @@ session_start();
                                     @enderror                                  
                                 </div>
                                 <div class="flex flex-row">
-                                    <a href="{{ route('index') }}" class="w-1/2">
+                                    <a href="{{ route('login') }}" class="w-1/2">
                                         <button class="w-full py-2 text-center font-bold text-gray-500 hover:text-gray-900 transition duration-200">
                                             Login
                                         </button>
@@ -60,7 +60,7 @@ session_start();
                                     <div>
                                         <label class="font-medium" for="username">Username</label>
                                         <br />
-                                        <input class="border border-gray-500 rounded-full py-2 pl-4 w-full" type="text" name="username" id="username" placeholder="Enter name or email">
+                                        <input class="border border-gray-500 rounded-full py-2 pl-4 w-full" type="text" name="username" id="username" placeholder="Enter name">
                                     </div>
                                     <div>
                                         <label class="font-medium" for="email">Email</label>

@@ -35,7 +35,7 @@ session_start();
                                     @endif
                                 </div>
                                 <div class="flex flex-row">
-                                    <a href="{{ route('index') }}" class="w-1/2">
+                                    <a href="{{ route('login') }}" class="w-1/2">
                                         <button class="w-full py-2 text-center font-bold text-gray-900 border-b-2 border-primary">
                                             Login
                                         </button>
@@ -48,7 +48,7 @@ session_start();
                                 </div>                    
                             </div>
                             <div>
-                                <form id="login-form" class="w-full" action="{{ route('login') }}" method="post"> 
+                                <form id="login-form" class="w-full" action="{{ route('login.form') }}" method="post"> 
                                     @csrf
                                     <div class="py-3">
                                         <label class="font-medium" for="nameandemail">Name or Email</label>

@@ -15,10 +15,7 @@
             <div class="h-1/6 flex flex-row items-center justify-center">
                 <p class="text-secondary text-2xl font-bold">ADMIN LIST</p>
             </div>
-            <div class="h-2/6 flex flex-col items-center justify-center">
-                <div class="w-24 h-24 overflow-hidden">
-                    <img class="object-cover rounded-full w-full h-full" src="img/admin-logo.jpg">
-                </div>
+            <div class="h-1/6 flex flex-col items-center justify-center">
                 <p class="mt-4 text-secondary text-xl font-medium">{{ session('username') }}</p>
                 <p class="mt-4 text-secondary text-lg font-normal">Admin</p>
             </div>
@@ -31,16 +28,19 @@
                     <img class="w-4" src="img/products-active.png">
                     <p class="ml-6 text-secondary text-md font-light">Products</p>
                 </a>
-                <a class="ml-4 mt-2 py-1 w-4/5 border border-secondary rounded-md flex flex-row items-center justify-center cursor-pointer">
+                <a href={{ route('accounts')}} class="ml-4 mt-2 py-1 w-4/5 border border-secondary rounded-md flex flex-row items-center justify-center cursor-pointer">
                     <img class="w-4" src="img/account-info-active.png">
                     <p class="ml-6 text-secondary text-md font-light">Account Info</p>
                 </a>
             </div>
             <div class="h-1/6 flex flex-row items-center justify-center">
-                <a class="flex flex-row cursor-pointer">
-                    <p class="mr-2 text-secondary text-md font-bold">Logout</p>
-                    <img class="w-6" src="img/logout-icon.png">
-                </a>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="flex flex-row cursor-pointer">
+                        <p class="mr-2 text-secondary text-md font-bold">Logout</p>
+                        <img class="w-6" src="img/logout-icon.png">
+                    </button>
+                </form>
             </div>
         </div>
         <div class="p-8 w-10/12 flex flex-col">

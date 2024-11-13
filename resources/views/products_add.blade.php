@@ -37,10 +37,13 @@
                 </a>
             </div>
             <div class="h-1/6 flex flex-row items-center justify-center">
-                <a class="flex flex-row cursor-pointer">
-                    <p class="mr-2 text-secondary text-md font-bold">Logout</p>
-                    <img class="w-6" src="img/logout-icon.png">
-                </a>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="flex flex-row cursor-pointer">
+                        <p class="mr-2 text-secondary text-md font-bold">Logout</p>
+                        <img class="w-6" src="img/logout-icon.png">
+                    </button>
+                </form>
             </div>
         </div>
         <div class="p-4 w-10/12 flex flex-col">
