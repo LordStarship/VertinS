@@ -13,12 +13,14 @@ return new class extends Migration
     {
         // Alter product_id in categories to be a plain integer with length 11
         Schema::table('categories', function (Blueprint $table) {
+            // $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->integer('product_id')->length(11)->change(); // Ensure it's an int(11)
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
 
         // Add product_id to pictures with length 11
         Schema::table('pictures', function (Blueprint $table) {
+            // $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->integer('product_id')->length(11); // Add as plain integer with length 11
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });

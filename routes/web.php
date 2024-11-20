@@ -23,8 +23,8 @@ Route::get('/contact', function () {
     return view('contact',['title' => 'Contact Us']);
 });
 
-Route::get('/blog', function () {
-    return view('blog',['title' => 'Halaman Blog']);
+Route::get('/category', function () {
+    return view('category',['title' => 'Category Page']);
 });
 
 Route::get('/product', function () {
