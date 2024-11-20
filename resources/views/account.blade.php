@@ -84,7 +84,7 @@
                                         <td class="p-2 border border-gray-300">{{ $admin->name }}</td>
                                         <td class="p-2 border border-gray-300">{{ $admin->email }}</td>
                                         <td class="p-2 border border-gray-300">
-                                            <button onclick="openEditAdminModal({{ $admin }})" class="mr-2 px-4 py-1 bg-blue-500 text-white rounded-md">Edit</button>
+                                            <button onclick="openEditAdminModal({{ json_encode(['id' => $admin->id, 'name' => $admin->name, 'email' => $admin->email]) }})" class="mr-2 px-4 py-1 bg-blue-500 text-white rounded-md">Edit</button>
                                             <button onclick="openDeleteAdminModal({{ $admin->id }})" class="px-4 py-1 bg-red-500 text-white rounded-md">Delete</button>
                                         </td>
                                     </tr>
@@ -190,12 +190,12 @@
             document.getElementById('editUserModal').classList.add('hidden');
         }
 
-        function openEditAdminModal(id, name, email) {
-                const editAdminForm = document.getElementById('editAdminForm');
-                editAdminForm.action = `/admin/${id}/update`;
-                document.getElementById('editAdminName').value = name;
-                document.getElementById('editAdminEmail').value = email;
-                document.getElementById('editAdminModal').classList.remove('hidden');
+        function openEditAdminModal(admin) {
+        const editAdminForm = document.getElementById('editAdminForm');
+        editAdminForm.action = `/admins/${admin.id}`;
+        document.getElementById('editAdminName').value = admin.name;
+        document.getElementById('editAdminEmail').value = admin.email;
+        document.getElementById('editAdminModal').classList.remove('hidden');
         }
 
         function closeEditAdminModal() {

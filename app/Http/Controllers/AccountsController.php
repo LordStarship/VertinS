@@ -52,7 +52,7 @@ class AccountsController extends Controller
             'name' => 'required|string|unique:admins,name,' . $id,
             'email' => 'required|email|unique:admins,email,' . $id,
         ]);
-
+    
         $admin = Admins::findOrFail($id);
         $admin->name = $validatedData['name'];
         $admin->email = $validatedData['email'];
@@ -60,6 +60,7 @@ class AccountsController extends Controller
         
         return redirect()->route('accounts')->with('success', 'Admin updated successfully');
     }
+
 
     public function destroy(Admins $admin)
     {
