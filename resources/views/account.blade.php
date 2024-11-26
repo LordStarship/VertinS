@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>VertinS | Account Info</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
     <div class="h-screen flex flex-row">
@@ -40,7 +46,7 @@
                 </form>
             </div>
         </div>
-        <div class="p-8 w-10/12 flex flex-col">
+        <div class="p-8 w-10/12 overflow-y-scroll flex flex-col">
             <div class="h-1/6 flex flex-col">
                 <div class="pb-4 w-full border-b-2 border-gray-300">
                     <p class="text-primary text-3xl font-bold">Account Info</p>
@@ -66,31 +72,16 @@
             </div>
             <div class="h-2/6 flex flex-col">
                 <button onclick="openAddAdminModal()" class="mb-4 w-1/6 py-2 bg-primary text-secondary rounded-md">Add Admin</button>
-                <div class="overflow-y-scroll h-full">
-                    <table class="w-full text-left border-collapse border border-gray-300">
+                <div class="h-full">
+                    <table id="adminsTable" class="w-full text-left border-collapse border border-gray-300">
                         <thead class="bg-gray-200">
                             <tr>
-                                <th class="p-2 border border-gray-300">ID</th>
-                                <th class="p-2 border border-gray-300">Name</th>
-                                <th class="p-2 border border-gray-300">Email</th>
-                                <th class="p-2 border border-gray-300">Actions</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach($admins as $admin)
-                                @if($admin->id !== 1)
-                                    <tr>
-                                        <td class="p-2 border border-gray-300">{{ $admin->id }}</td>
-                                        <td class="p-2 border border-gray-300">{{ $admin->name }}</td>
-                                        <td class="p-2 border border-gray-300">{{ $admin->email }}</td>
-                                        <td class="p-2 border border-gray-300">
-                                            <button onclick="openEditAdminModal({{ json_encode(['id' => $admin->id, 'name' => $admin->name, 'email' => $admin->email]) }})" class="mr-2 px-4 py-1 bg-blue-500 text-white rounded-md">Edit</button>
-                                            <button onclick="openDeleteAdminModal({{ $admin->id }})" class="px-4 py-1 bg-red-500 text-white rounded-md">Delete</button>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -174,6 +165,33 @@
     </div>
     
     <script>
+        $(document).ready(function () {
+            $('#adminsTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('accounts') }}",
+                    error: function(xhr) {
+                        console.error('DataTables AJAX error:', xhr.responseText);
+                        alert('Failed to load data. Check the console for details.');
+                    }
+                },
+                columns: [
+                    { data: 'id', name: 'id' },
+                    { data: 'name', name: 'name' },
+                    { data: 'email', name: 'email' },
+                    { data: 'actions', name: 'actions', orderable: false, searchable: false }
+                ],
+                createdRow: function(row, data, dataIndex) {
+                    $(row).addClass('text-center'); 
+                },
+                drawCallback: function () {
+                    $('#categoriesTable th').addClass('text-center');
+                    $('#categoriesTable tbody td').addClass('text-center');
+                }
+            });
+        });
+
         function openAddAdminModal() {
             document.getElementById('addAdminModal').classList.remove('hidden');
         }

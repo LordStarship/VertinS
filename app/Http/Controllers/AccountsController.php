@@ -7,10 +7,29 @@ use Illuminate\Http\Request;
 
 class AccountsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $admins = Admins::where('id', '!=', 1)->get();
-        return view('account', compact('admins'));
+        if ($request->ajax()) {
+            $admins = Admins::where('id', '!=', 1)->get();
+            return datatables()->of($admins)
+                    ->addColumn('actions', function ($row) {
+                    // Encode the data to JSON format
+                    $editData = json_encode(['id' => $row->id, 'name' => $row->name, 'email' => $row->email]);                                        
+                    return '
+                        <div class="flex items-center justify-center">
+                            <a href="javascript:void(0);" onclick="openEditAdminModal(' . htmlspecialchars($editData) . ')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md">
+                                <img src="' . asset('storage/img/edit-logo.png') . '" alt="Edit" class="w-5 h-5">
+                            </a>
+                            <a href="javascript:void(0);" onclick="openDeleteAdminModal(\'' . $row->id . '\')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md">
+                                <img src="' . asset('storage/img/delete-logo.png') . '" alt="Delete" class="w-5 h-5">
+                            </a>
+                        </div>
+                    ';                                        
+                })
+            ->rawColumns(['actions'])
+            ->make(true);
+        }
+        return view('account');
     }
 
     public function store(Request $request)

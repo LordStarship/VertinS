@@ -35,10 +35,10 @@
           </dl>
         </div>
         <div class="grid grid-cols-2 grid-rows-2 gap-2 sm:gap-4 lg:gap-6">
-          <img src="img/R1999.jpg" alt="Walnut card tray with white powder coated steel divider and 3 punchout holes." class="w-[280px] h-[280px] rounded-lg bg-gray-100">
-          <img src="img/GI1.jpg" alt="Top down view of walnut card tray with embedded magnets and card groove." class="w-[280px] h-[280px] rounded-lg bg-gray-100">
-          <img src="img/HSR1.jpg" alt="Side of walnut card tray with card groove and recessed card area." class="w-[280px] h-[280px] rounded-lg bg-gray-100">
-          <img src="img/Wuwa1.jpg" alt="Walnut card tray filled with cards and card angled in dedicated groove." class="w-[280px] h-[280px] rounded-lg bg-gray-100 object-left">
+          <img src= {{ asset('img/R1999.jpg') }} alt="Walnut card tray with white powder coated steel divider and 3 punchout holes." class="w-[280px] h-[280px] rounded-lg bg-gray-100">
+          <img src= {{ asset('img/GI1.jpg') }} alt="Top down view of walnut card tray with embedded magnets and card groove." class="w-[280px] h-[280px] rounded-lg bg-gray-100">
+          <img src= {{ asset('img/HSR1.jpg') }} alt="Side of walnut card tray with card groove and recessed card area." class="w-[280px] h-[280px] rounded-lg bg-gray-100">
+          <img src= {{ asset('img/Wuwa1.jpg') }} alt="Walnut card tray filled with cards and card angled in dedicated groove." class="w-[280px] h-[280px] rounded-lg bg-gray-100 object-left">
         </div>
         
     

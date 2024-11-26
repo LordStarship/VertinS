@@ -18,7 +18,7 @@ session_start();
         <div id="signup" class="h-full">
             <div class="flex flex-col w-full h-full">
                 <div class="h-1/6 flex items-center justify-center">
-                    <img class="h-32" src="img/logo.png">
+                    <img class="h-32" src={{ asset('storage/img/logo.png') }}>
                     <p class="text-5xl font-bold">VertinS</p>
                 </div>
                 <div class="flex flex-row justify-evenly w-full h-full items-center">
@@ -84,7 +84,7 @@ session_start();
                     </div>
                     <div id="signup-right" class="w-2/5 h-full">
                         <div class="flex items-center h-full">
-                            <img class="rounded-2xl h-38" src="img/login-pic.jpg">
+                            <img class="rounded-2xl h-38" src={{ asset('storage/img/login-pic.jpg') }}>
                         </div>
                     </div>
                 </div>

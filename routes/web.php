@@ -17,7 +17,7 @@ Route::get('/about', function () {
 
 Route::get('/', function () {
     return view('avalestial',['title' => "Ava'Lestial Store"]);
-});
+})->name('home');
 
 Route::get('/contact', function () {
     return view('contact',['title' => 'Contact Us']);
