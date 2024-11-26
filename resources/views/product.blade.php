@@ -23,12 +23,12 @@
           </div>
         </div> --}}
         <div class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-          <img src={{ asset('img/Char1.jpg') }} alt="Two each of gray, white, and black shirts laying flat." class="hidden aspect-[3/4] size-full rounded-lg object-cover lg:block object-left">
+          <img src={{ asset('storage/img/Char1.jpg') }} alt="Two each of gray, white, and black shirts laying flat." class="hidden aspect-[3/4] size-full rounded-lg object-cover lg:block object-left">
           <div class="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-            <img src= {{ asset('img/Weapon1.jpg') }} alt="Model wearing plain black basic tee." class="aspect-[3/2] size-full rounded-lg object-cover object-left">
-            <img src= {{ asset('img/Banner1.jpg') }} alt="Model wearing plain gray basic tee." class="aspect-[3/2] size-full rounded-lg object-cover object-left">
+            <img src= {{ asset('storage/img/Weapon1.jpg') }} alt="Model wearing plain black basic tee." class="aspect-[3/2] size-full rounded-lg object-cover object-left">
+            <img src= {{ asset('storage/img/Banner1.jpg') }} alt="Model wearing plain gray basic tee." class="aspect-[3/2] size-full rounded-lg object-cover object-left">
           </div>
-          <img src= {{ asset('img/UL1.jpg') }} alt="Model wearing plain white basic tee." class="aspect-[4/5] size-full object-cover sm:rounded-lg lg:aspect-[3/4]">
+          <img src= {{ asset('storage/img/UL1.jpg') }} alt="Model wearing plain white basic tee." class="aspect-[4/5] size-full object-cover sm:rounded-lg lg:aspect-[3/4]">
         </div>
     
         <!-- Product info -->

@@ -21,15 +21,15 @@
             </div>
             <div class="h-3/6 flex flex-col items-center justify-center">
                 <a class="ml-4 py-1 w-4/5 border border-secondary rounded-md flex flex-row items-center justify-center cursor-pointer">
-                    <img class="w-4" src={{ asset('img/category-active.png') }}>
+                    <img class="w-4" src={{ asset('storage/img/category-active.png') }}>
                     <p class="ml-6 text-secondary text-md font-light">Category</p>
                 </a>
                 <a href={{ route('products')}} class="ml-4 mt-2 py-1 w-4/5 border bg-secondary rounded-md border-secondary flex flex-row items-center justify-center cursor-pointer">
-                    <img class="w-4" src={{ asset('img/products-inactive.png') }}>
+                    <img class="w-4" src={{ asset('storage.img/products-inactive.png') }}>
                     <p class="ml-6 text-primary text-md font-medium">Products</p>
                 </a>
                 <a class="ml-4 mt-2 py-1 w-4/5 border border-secondary rounded-md flex flex-row items-center justify-center cursor-pointer">
-                    <img class="w-4" src={{ asset('img/account-info-active.png') }}>
+                    <img class="w-4" src={{ asset('storage/img/account-info-active.png') }}>
                     <p class="ml-6 text-secondary text-md font-light">Account Info</p>
                 </a>
             </div>
@@ -38,7 +38,7 @@
                     @csrf
                     <button type="submit" class="flex flex-row cursor-pointer">
                         <p class="mr-2 text-secondary text-md font-bold">Logout</p>
-                        <img class="w-6" src={{ asset('img/logout-icon.png') }}>
+                        <img class="w-6" src={{ asset('storage/img/logout-icon.png') }}>
                     </button>
                 </form>
             </div>

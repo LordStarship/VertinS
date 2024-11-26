@@ -80,7 +80,7 @@
       <div class="border-t border-gray-700 pb-3 pt-4">
         <div class="flex items-center px-5">
           <div class="flex-shrink-0">
-            <img class="h-10 w-10 rounded-full" src="img/Shiroko1.png" alt="">
+            <img class="h-10 w-10 rounded-full" src={{ asset('storage/img/Shiroko1.png') }} alt="">
           </div>
           <div class="ml-3">
             <div class="text-base/5 font-medium text-white">Tom Cook</div>
