@@ -6,7 +6,7 @@
           <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-6">Wuthering Waves</h2>
   
       <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-        <a href="/product" class="group">
+        <a href="/product/" class="group">
           <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
             <img src= {{ asset('storage/img/SK1.jpg') }} alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
           </div>

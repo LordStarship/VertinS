@@ -6,22 +6,6 @@
         <nav aria-label="Breadcrumb">
     
         <!-- Image gallery -->
-        {{-- <div class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-          <div class="aspect-h-5 aspect-w-4 hidden overflow-hidden rounded-lg lg:block">
-            <img src="img/Char1.jpg" alt="Two each of gray, white, and black shirts laying flat." class="h-full w-full object-cover object-left">
-          </div>
-          <div class="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-            <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-              <img src="img/Weapon1.jpg" alt="Model wearing plain black basic tee." class="h-full w-full object-cover object-left">
-            </div>
-            <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-              <img src="img/Banner1.jpg" alt="Model wearing plain gray basic tee." class="h-full w-full object-cover object-left scale-20">
-            </div>
-          </div>
-          <div class="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-            <img src="img/UL1.jpg" alt="Model wearing plain white basic tee." class="h-full w-full object-cover object-left">
-          </div>
-        </div> --}}
         <div class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
           <img src={{ asset('storage/img/Char1.jpg') }} alt="Two each of gray, white, and black shirts laying flat." class="hidden aspect-[3/4] size-full rounded-lg object-cover lg:block object-left">
           <div class="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
@@ -89,8 +73,8 @@
               </div>
             </div>
     
-            <div class="mt-10">
-              <h2 class="text-sm font-medium text-gray-900">Available</h2>
+            {{-- <div class="mt-10">
+              <h2 class="text-sm font-medium text-gray-900">Available</h2> --}}
     
               <div class="mt-4 space-y-6">
                 <p class="text-sm text-gray-600">Shorekeeper Starter account with Verina and other good </p>

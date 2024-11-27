@@ -13,6 +13,8 @@
               <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
               <x-nav-link href="/category" :active="request()->is('category')">Categories</x-nav-link>
               <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
+              <x-nav-link href="/testing" :active="request()->is('testing')">Testing</x-nav-link>
+              
             </div>
           </div>
         </div>
