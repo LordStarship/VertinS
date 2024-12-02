@@ -78,15 +78,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/account', [AccountsController::class, 'index'])->name('accounts');
     Route::put('/account/update', [AccountsController::class, 'updateCurrentAdmin'])->name('account.update');
     
-    Route::get('/products', [ProductsController::class, 'index'])->name('products');
-    Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');
-    Route::post('/products/store', [ProductsController::class, 'store'])->name('products.store');
-    
-    Route::get('/categories', [CategoriesController::class, 'index'])->name('categories');
-    Route::put('/categories/{id}', [CategoriesController::class, 'update'])->name('categories.update');
-    Route::get('/categories/create', [CategoriesController::class, 'create'])->name('categories.create');
-    Route::post('/categories/store', [CategoriesController::class, 'store'])->name('categories.store');
-    Route::delete('/categories/{id}', [CategoriesController::class, 'destroy'])->name('categories.destroy');
+    Route::resource('products', ProductsController::class);
+    Route::resource('categories', CategoriesController::class);
     
     Route::put('/admins/{id}', [AccountsController::class, 'updateAdmin'])->name('admins.update');
     Route::post('/admins/store', [AccountsController::class, 'store'])->name('admins.store');

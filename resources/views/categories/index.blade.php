@@ -12,6 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://kit.fontawesome.com/7a5b7d67a3.js" crossorigin="anonymous"></script>
 <body>
     <div class="h-screen flex flex-row">
         <div class="w-2/12 flex flex-col bg-primary">
@@ -22,20 +23,25 @@
                 <p class="mt-4 text-secondary text-xl font-medium">{{ session('username') }}</p>
                 <p class="mt-4 text-secondary text-lg font-normal">Admin</p>
             </div>
-            <div class="h-3/6 flex flex-col items-center justify-center">
-                <a href={{ route('categories')}} class="ml-4 mt-2 py-1 w-4/5 border bg-secondary rounded-md border-secondary flex flex-row items-center justify-center cursor-pointer">
-                    <img class="w-4" src={{ asset('storage/img/category-inactive.png') }}>
-                    <p class="ml-6 text-primary text-md font-medium">Category</p>
+            <div class="h-3/6 flex flex-col items-center justify-center space-y-3">
+                <a href="{{ route('categories.index') }}" 
+                   class="py-2 w-4/5 flex items-center border border-secondary bg-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                    <img class="w-5 ml-4" src="{{ asset('storage/img/category-inactive.png') }}" alt="Category Icon">
+                    <p class="ml-4 text-primary text-base font-medium">Category</p>
                 </a>
-                <a href={{ route('products')}} class="ml-4 mt-2 py-1 w-4/5 border border-secondary rounded-md flex flex-row items-center justify-center cursor-pointer">
-                    <img class="w-4" src={{ asset('storage/img/products-active.png') }}>
-                    <p class="ml-6 text-secondary text-md font-light">Products</p>
+                
+                <a href="{{ route('products.index') }}" 
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                    <img class="w-5 ml-4" src="{{ asset('storage/img/products-active.png') }}" alt="Products Icon">
+                    <p class="ml-4 text-secondary text-base font-light">Products</p>
                 </a>
-                <a href={{ route('accounts')}} class="ml-4 mt-2 py-1 w-4/5 border border-secondary rounded-md flex flex-row items-center justify-center cursor-pointer">
-                    <img class="w-4" src={{ asset('storage/img/account-info-active.png') }}>
-                    <p class="ml-6 text-secondary text-md font-light">Account Info</p>
+                
+                <a href="{{ route('accounts') }}" 
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                    <img class="w-5 ml-4" src="{{ asset('storage/img/account-info-active.png') }}" alt="Account Info Icon">
+                    <p class="ml-4 text-secondary text-base font-light">Account Info</p>
                 </a>
-            </div>
+            </div>            
             <div class="h-1/6 flex flex-row items-center justify-center">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
@@ -51,7 +57,6 @@
                 <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">
                     <p class="text-primary text-3xl font-bold">Categories List</p>
                     <div class="flex flex-row ml-auto">
-                        <input type="text" id="search-input" placeholder="Search..." class="mr-4 pl-4 border border-secondary rounded-md" autocomplete="off">
                         <a href={{ route('categories.create')}} class="px-2 bg-primary rounded-md flex items-center justify-center cursor-pointer">
                             <p class="text-secondary text-md font-medium">Add New Category</p>
                         </a>
@@ -101,7 +106,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('categories') }}",
+                    url: "{{ route('categories.index') }}",
                     error: function(xhr) {
                         console.error('DataTables AJAX error:', xhr.responseText);
                         alert('Failed to load data. Check the console for details.');

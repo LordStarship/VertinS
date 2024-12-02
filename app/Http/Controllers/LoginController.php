@@ -56,7 +56,7 @@ class LoginController extends Controller
             'useremail' => $user->email,
         ]);
 
-        return redirect()->route('products');
+        return redirect()->route('products.index');
     }
 
     public function logout(Request $request)
