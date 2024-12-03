@@ -1,6 +1,8 @@
 <?php
 
 namespace Database\Seeders;
+
+use App\Models\Products;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -13,8 +15,8 @@ class ProductsSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('products')->insert([
-            'id' => '1',
+        Products::updateOrCreate([
+            'id' => '2',
             'admin_id' => '1',
             'picture_id' => '1',
             'title' => 'Shorekeeper Starter Account',

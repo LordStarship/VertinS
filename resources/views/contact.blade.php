@@ -16,8 +16,8 @@
         </div>
         <div class="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
           <div class="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold text-white sm:grid-cols-2 md:flex lg:gap-x-10">
-            <a href="wa.me/6289694222929">Whatsapp <span aria-hidden="true">&rarr;</span></a>
-            <a href="#">Facebook <span aria-hidden="true">&rarr;</span></a>
+            <a href="https://wa.me/6289694222929">Whatsapp <span aria-hidden="true">&rarr;</span></a>
+            <a href="https://www.facebook.com/profile.php?id=100028264848127&sk=grid&locale=id_ID">Facebook <span aria-hidden="true">&rarr;</span></a>
             <a href="#">Discord <span aria-hidden="true">&rarr;</span></a>
             {{-- <a href="#">Meet our leadership <span aria-hidden="true">&rarr;</span></a> --}}
           </div>

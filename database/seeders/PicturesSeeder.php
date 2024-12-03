@@ -1,6 +1,8 @@
 <?php
 
 namespace Database\Seeders;
+
+use App\Models\Pictures;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -13,11 +15,11 @@ class PicturesSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('pictures')->insert([
-            'id' => '1',
+        Pictures::updateOrCreate([
+            'id' => '3',
             'admin_id' => '1',
-            'name' => 'profile',
-            'path' => 'storage/img/SK1.',
+            'name' => 'profiles',
+            'path' => 'storage/img/SK3.',
         ]);
     }
 }

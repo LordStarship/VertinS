@@ -1,10 +1,10 @@
 <?php
 
 namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use App\Models\Admins;
 
 class AdminsSeeder extends Seeder
 {
@@ -13,11 +13,12 @@ class AdminsSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('admins')->insert([
-            'name' => 'WS',
-            'email' => 'willstaniss@gmail.com',
-            'password' => Hash::make('ws123'),
-        ]);
+        Admins::updateOrCreate(
+            ['email' => 'Timo@gmail.com'], // Kriteria pencarian
+            [
+                'name' => 'Timmo', // Data yang akan diperbarui/dibuat
+                'password' => Hash::make('ws123'),
+            ]
+        );
     }
-
 }
