@@ -8,7 +8,7 @@
         <div class = " text-base text-gray-500">
             <a href="#">{{ $testings['author'] }}</a> | 26 November 2025
         </div>
-        <p class ="my-4 font-light">{{($testings['body']),100 }}</p>
+        <p class ="my-4 font-light">{{($testings['body'])}}</p>
         <a href="/testing" class = "font-medium text-blue-500">&laquo lets go Back </a>
     </article>
 

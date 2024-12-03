@@ -11,6 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://kit.fontawesome.com/7a5b7d67a3.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="h-screen flex flex-row">
@@ -22,20 +23,24 @@
                 <p class="mt-4 text-secondary text-xl font-medium">{{ session('username') }}</p>
                 <p class="mt-4 text-secondary text-lg font-normal">Admin</p>
             </div>
-            <div class="h-3/6 flex flex-col items-center justify-center">
-                <a href="{{ route('categories')}}" class="ml-4 py-1 w-4/5 border border-secondary rounded-md flex flex-row items-center justify-center cursor-pointer">
-                    <img class="w-4" src={{ asset('storage/img/category-active.png') }}>
-                    <p class="ml-6 text-secondary text-md font-light">Category</p>
+            <div class="h-3/6 flex flex-col items-center justify-center space-y-3">
+                <a href="{{ route('categories') }}" 
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                    <img class="w-5 ml-4" src="{{ asset('storage/img/category-active.png') }}" alt="Category Icon">
+                    <p class="ml-4 text-secondary text-base font-light">Category</p>
                 </a>
-                <a href="{{ route('products')}}" class="ml-4 mt-2 py-1 w-4/5 border border-secondary rounded-md flex flex-row items-center justify-center cursor-pointer">
-                    <img class="w-4" src={{ asset('storage/img/products-active.png') }}>
-                    <p class="ml-6 text-secondary text-md font-light">Products</p>
+                <a href="{{ route('products') }}" 
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                    <img class="w-5 ml-4" src="{{ asset('storage/img/products-active.png') }}" alt="Products Icon">
+                    <p class="ml-4 text-secondary text-base font-light">Products</p>
                 </a>
-                <a href="{{ route('accounts')}}" class="ml-4 mt-2 py-1 w-4/5 border bg-secondary rounded-md border-secondary flex flex-row items-center justify-center cursor-pointer">
-                    <img class="w-4" src={{ asset('storage/img/account-info-inactive.png') }}>
-                    <p class="ml-6 text-primary text-md font-medium">Account Info</p>
+                
+                <a href="{{ route('accounts') }}" 
+                   class="py-2 w-4/5 flex items-center border border-secondary bg-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                    <img class="w-5 ml-4" src="{{ asset('storage/img/account-info-inactive.png') }}" alt="Account Info Icon">
+                    <p class="ml-4 text-primary text-base font-medium">Account Info</p>
                 </a>
-            </div>
+            </div>            
             <div class="h-1/6 flex flex-row items-center justify-center">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
@@ -228,6 +233,25 @@
         function closeDeleteAdminModal() {
             document.getElementById('deleteAdminModal').classList.add('hidden');
         }
+        
+        document.getElementById('addAdminModal').addEventListener('click', function (event) {
+            if (event.target === this) {
+                closeAddAdminModal();
+            }
+        });
+
+        document.getElementById('editAdminModal').addEventListener('click', function (event) {
+            if (event.target === this) {
+                closeEditAdminModal();
+            }
+        });
+
+        document.getElementById('deleteAdminModal').addEventListener('click', function (event) {
+            if (event.target === this) {
+                closeDeleteAdminModal();
+            }
+        });
+
     </script>
 </body>
 </html>

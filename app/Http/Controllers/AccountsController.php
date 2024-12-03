@@ -18,10 +18,10 @@ class AccountsController extends Controller
                     return '
                         <div class="flex items-center justify-center">
                             <a href="javascript:void(0);" onclick="openEditAdminModal(' . htmlspecialchars($editData) . ')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md">
-                                <img src="' . asset('storage/img/edit-logo.png') . '" alt="Edit" class="w-5 h-5">
+                                <i class="fa-solid fa-pen"></i>
                             </a>
                             <a href="javascript:void(0);" onclick="openDeleteAdminModal(\'' . $row->id . '\')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md">
-                                <img src="' . asset('storage/img/delete-logo.png') . '" alt="Delete" class="w-5 h-5">
+                                <i class="fa-solid fa-trash"></i>
                             </a>
                         </div>
                     ';                                        

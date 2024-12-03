@@ -14,15 +14,15 @@ class CategoriesController extends Controller
     {
         if ($request->ajax()) {
             $categories = Categories::withCount('products')->get();
-            return datatables()->of($categories)
+            return DataTables::of($categories)
                 ->addColumn('actions', function ($row) {
                     return '
                         <div class="flex items-center justify-center">
                             <a href="javascript:void(0);" onclick="openEditModal(\'' . $row->id . '\', \'' . $row->name . '\')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md">
-                                <img src="' . asset('storage/img/edit-logo.png') . '" alt="Edit" class="w-5 h-5">
+                                <i class="fa-solid fa-pen"></i>
                             </a>
                             <a href="javascript:void(0);" onclick="openDeleteModal(\'' . $row->id . '\', \'' . $row->name . '\')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md">
-                                <img src="' . asset('storage/img/delete-logo.png') . '" alt="Delete" class="w-5 h-5">
+                                <i class="fa-solid fa-trash"></i>
                             </a>
                         </div>
                     ';
@@ -31,12 +31,12 @@ class CategoriesController extends Controller
             ->make(true);
         }
 
-        return view('categories');
+        return view('categories.index');
     }
 
     public function create()
     {
-        return view('categories_add');
+        return view('categories.create');
     }
 
     public function store(Request $request)
@@ -49,10 +49,10 @@ class CategoriesController extends Controller
         // Create the new category
         $category = new Categories();
         $category->name = $request->input('name');
-        $category->admin_id = Auth::guard('web')->id(); // Assuming the logged-in admin's ID is used
+        $category->admin_id = Auth::guard('web')->id(); 
 
         if ($category->save()) {
-            return redirect()->route('categories')->with('success', 'Category added successfully.');
+            return redirect()->route('categories.index')->with('success', 'Category added successfully.');
         } else {
             return redirect()->back()->with('error', 'Failed to add category.');
         }

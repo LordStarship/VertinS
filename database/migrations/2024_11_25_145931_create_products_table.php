@@ -11,7 +11,6 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->integer('id', 11)->primary();
             $table->integer('admin_id');
-            $table->integer('picture_id');
             $table->string('title', 100);
             $table->text('description');
             $table->double('price');
@@ -20,7 +19,6 @@ class CreateProductsTable extends Migration
             $table->integer('message_count')->default(0);
 
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
-            $table->foreign('picture_id')->references('id')->on('pictures')->onDelete('cascade');
             $table->timestamps();
         });
     }

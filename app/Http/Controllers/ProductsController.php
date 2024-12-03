@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Categories; 
 use App\Models\Products;
+use App\Models\Pictures;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends Controller
 {
@@ -30,10 +33,10 @@ class ProductsController extends Controller
                     return '
                         <div class="flex items-center justify-center">
                             <a href="javascript:void(0);" onclick="openEditModal(\'' . $row->id . '\', \'' . $row->name . '\')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md">
-                                <img src="' . asset('storage/img/edit-logo.png') . '" alt="Edit" class="w-5 h-5">
+                                <i class="fa-solid fa-pen"></i>
                             </a>
                             <a href="javascript:void(0);" onclick="openDeleteModal(\'' . $row->id . '\', \'' . $row->name . '\')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md">
-                                <img src="' . asset('storage/img/delete-logo.png') . '" alt="Delete" class="w-5 h-5">
+                                <i class="fa-solid fa-trash"></i>
                             </a>
                         </div>
                     ';
@@ -42,51 +45,54 @@ class ProductsController extends Controller
                 ->make(true);
         }
 
-        return view('products');
+        return view('products.index');
     }
 
     public function create()
     {
         $categories = Categories::all();
-        return view('products_add', compact('categories'));
-    }
+            return view('products.create', compact('categories'));
+        }
 
     public function store(Request $request)
     {
+        Log::info('Store method called.');
+        Log::info('Request data:', $request->all());
 
-        $validated = $request->validate([
-            'title' => 'required|string|max:100',
-            'description' => 'required|string',
-            'categories' => 'required|array',
-            'price' => 'required|numeric',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'isDefault' => 'required|boolean',
-        ]);
+        try {
+            $validated = $request->validate(Products::rules());
+            Log::info('Validation passed.', $validated);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Validation failed.', $e->errors());
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
 
-        // Create the product
         $product = Products::create([
             'title' => $validated['title'],
             'description' => $validated['description'],
             'price' => $validated['price'],
+            'admin_id' => Auth::guard('web')->id(),
         ]);
 
-        // Attach categories
-        $product->categories()->attach($validated['categories']);
+        Log::info('Product created: ', $product->toArray());
 
-        // Process and save images
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $key => $image) {
-                $imageName = time() . '_' . $image->getClientOriginalName();
-                $imagePath = $image->storeAs('pics', $imageName, 'public');
-                $product->pictures()->create([
-                    'name' => $imageName,
-                    'path' => $imagePath,
-                    'isDefault' => $key == 0 && $validated['isDefault'], // First image is default
-                ]);
-            }
+        $product->categories()->sync($validated['categories']);
+
+        foreach ($validated['images'] as $index => $image) {
+            Log::info('Processing image:', ['name' => $image->getClientOriginalName()]);
+            $path = $image->store('pics', 'public');
+            Pictures::create([
+                'name' => $image->getClientOriginalName(),
+                'path' => $path,
+                'is_default' => $index === 0,
+                'product_id' => $product->id,
+                'admin_id' => Auth::guard('web')->id(),
+            ]);
         }
 
-        return redirect()->route('products')->with('success', 'Product added successfully');
+        Log::info('Pictures saved.');
+
+        return redirect()->route('products.index')->with('success', 'Product added successfully!');
     }
 
 }

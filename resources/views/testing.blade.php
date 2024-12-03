@@ -12,7 +12,7 @@
         <div class = " text-base text-gray-500">
             <a href="#">{{ $post['author'] }}</a> | 26 November 2025
         </div>
-        <p class ="my-4 font-light">{{Str::limit($post['body']),100 }}</p>
+        <p class ="my-4 font-light">{{Str::limit($post['body'])}}</p>
         <a href="/testing/{{ $post['id'] }}" class = "font-medium text-blue-500">Read more &raquo; </a>
     </article>
 
