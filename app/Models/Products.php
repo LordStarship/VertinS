@@ -11,18 +11,26 @@ class Products extends Model
 
     protected $fillable = ['title', 'description', 'price', 'admin_id'];
 
-    public static function rules()
+    public static function rules($isEdit = false)
     {
-        return [
+        $rules = [
             'title' => 'required|string|max:100',
             'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
             'categories' => 'required|array|min:1',
             'categories.*' => 'exists:categories,id',
-            'price' => 'required|numeric|min:0',
-            'images' => 'required|array|min:1|max:5',
-            'images.*' => 'required|file|mimes:jpg,jpeg,png|max:2048',
         ];
+    
+        if (!$isEdit) {
+            $rules['images'] = 'required|array|min:1'; // At least one image is required on creation
+            $rules['images.*'] = 'image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+        } else {
+            $rules['images.*'] = 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'; // Optional for edit
+        }
+    
+        return $rules;
     }
+    
 
     public function categories()
     {

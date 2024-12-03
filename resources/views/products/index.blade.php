@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite('resources/css/app.css')
     <title>VertinS | Products</title>
     <link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -51,7 +52,7 @@
                 </form>
             </div>
         </div>
-        <div class="p-8 w-10/12 flex flex-col">
+        <div class="p-8 w-10/12 overflow-y-scroll flex flex-col">
             <div class="h-2/6 flex flex-col">
                 <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">
                     <p class="text-primary text-3xl font-bold">Product List</p>
@@ -66,15 +67,32 @@
                 <table id="productsTable" class="w-full">
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Title</th>
                             <th>Description</th>
                             <th>Tags</th>
                             <th>Price</th>
                             <th>Image</th>
-                            <th>Actions</th>
+                            <th>Axctions</th>
                         </tr>
                     </thead>                    
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div class="bg-white rounded shadow-lg w-1/3 p-6 relative">
+            <!-- Close Button -->
+            <button onclick="closeDeleteModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                &times;
+            </button>
+            <!-- Modal Content -->
+            <h2 class="text-xl font-bold mb-4">Delete Product</h2>
+            <p id="deleteMessage" class="mb-6"></p>
+            <div class="flex justify-end gap-4">
+                <button onclick="closeDeleteModal()" class="py-2 px-4 bg-gray-300 hover:bg-gray-400 text-gray-700 rounded">Cancel</button>
+                <button id="confirmDeleteButton" class="py-2 px-4 bg-red-500 hover:bg-red-600 text-white rounded">Delete</button>
             </div>
         </div>
     </div>
@@ -96,7 +114,13 @@
                 { data: 'title', name: 'title' },
                 { data: 'description', name: 'description' },
                 { data: 'categories_count', name: 'categories_count', render: data => `${data} Tags Embed` , orderable: false, searchable: false },
-                { data: 'price', name: 'price]' },
+                { 
+                    data: 'price', 
+                    name: 'price',
+                    render: function (data, type, row) {
+                        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data);
+                    }
+                },
                 { data: 'pictures_count', name: 'pictures_count', render: data => `${data} Pictures Embed` , orderable: false, searchable: false },
                 { data: 'actions', name: 'actions', orderable: false, searchable: false }
             ],
@@ -109,4 +133,56 @@
             }
         });
     });
+
+    let productIdToDelete = null;
+
+    function openDeleteModal(productId, productName) {
+        productIdToDelete = productId; 
+        document.getElementById('deleteMessage').textContent = `Are you sure you want to delete the product "${productName}"?`;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+        productIdToDelete = null; // Clear the stored product ID
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+
+    document.getElementById('confirmDeleteButton').addEventListener('click', function () {
+        if (productIdToDelete) {
+            deleteProduct(productIdToDelete); // Call the function to delete the product
+        }
+    });
+    
+    function deleteProduct(productId) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        
+        if (!csrfToken) {
+            console.error('CSRF token not found. Make sure it is included in the <head> section.');
+            alert('CSRF token missing. Please contact support.');
+            return;
+        }
+
+        fetch(`/products/${productId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to delete the product.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message || 'Product deleted successfully.');
+                closeDeleteModal();
+                location.reload(); // Reload the page to reflect changes
+            })
+            .catch(error => {
+                console.error(error);
+                alert('An error occurred while deleting the product.');
+            });
+    }
 </script>

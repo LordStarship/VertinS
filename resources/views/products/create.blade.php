@@ -46,7 +46,7 @@
                 </form>
             </div>
         </div>
-        <div class="p-4 w-10/12 flex flex-col">
+        <div class="p-4 w-10/12 overflow-y-scroll flex flex-col">
             <div class="container mx-auto p-6">
                 <h1 class="text-2xl font-bold mb-4">Add New Product</h1>
                 <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">

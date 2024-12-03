@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SignUpController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\PicturesController;
 use App\Http\Controllers\AccountsController;
 
 // Route::get('/', function () {
@@ -75,15 +76,17 @@ Route::get('/product', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/account', [AccountsController::class, 'index'])->name('accounts');
-    Route::put('/account/update', [AccountsController::class, 'updateCurrentAdmin'])->name('account.update');
     
     Route::resource('products', ProductsController::class);
     Route::resource('categories', CategoriesController::class);
     
+    Route::get('/account', [AccountsController::class, 'index'])->name('accounts');
+    Route::put('/account/update', [AccountsController::class, 'updateCurrentAdmin'])->name('account.update');
     Route::put('/admins/{id}', [AccountsController::class, 'updateAdmin'])->name('admins.update');
     Route::post('/admins/store', [AccountsController::class, 'store'])->name('admins.store');
     Route::delete('/admin/{admin}', [AccountsController::class, 'destroy'])->name('admin.destroy');
+
+    Route::delete('pictures/{picture}', [PicturesController::class, 'destroy'])->name('pictures.destroy');
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
