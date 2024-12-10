@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="p-8 w-10/12 overflow-y-scroll flex flex-col">
-            <div class="h-2/6 flex flex-col">
+            <div class="h-1/6 flex flex-col">
                 <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">
                     <p class="text-primary text-3xl font-bold">Product List</p>
                     <div class="flex flex-row ml-auto">
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            <div class="h-4/6 overflow-x-auto">
+            <div class="h-5/6 overflow-x-auto">
                 <table id="productsTable" class="w-full">
                     <thead>
                         <tr>
@@ -72,7 +72,7 @@
                             <th>Tags</th>
                             <th>Price</th>
                             <th>Image</th>
-                            <th>Axctions</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>                    
                 </table>
@@ -83,11 +83,9 @@
     <!-- Delete Modal -->
     <div id="deleteModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-gray-800 bg-opacity-50">
         <div class="bg-white rounded shadow-lg w-1/3 p-6 relative">
-            <!-- Close Button -->
             <button onclick="closeDeleteModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
                 &times;
             </button>
-            <!-- Modal Content -->
             <h2 class="text-xl font-bold mb-4">Delete Product</h2>
             <p id="deleteMessage" class="mb-6"></p>
             <div class="flex justify-end gap-4">
@@ -143,13 +141,13 @@
     }
 
     function closeDeleteModal() {
-        productIdToDelete = null; // Clear the stored product ID
+        productIdToDelete = null; 
         document.getElementById('deleteModal').classList.add('hidden');
     }
 
     document.getElementById('confirmDeleteButton').addEventListener('click', function () {
         if (productIdToDelete) {
-            deleteProduct(productIdToDelete); // Call the function to delete the product
+            deleteProduct(productIdToDelete);
         }
     });
     

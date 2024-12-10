@@ -76,7 +76,6 @@ Route::get('/product', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    
     Route::resource('products', ProductsController::class);
     Route::resource('categories', CategoriesController::class);
     

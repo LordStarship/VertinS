@@ -25,7 +25,7 @@ class ProductsController extends Controller
                         ->selectRaw('count(*)'),
 
                     'pictures_count' => DB::table('pictures')
-                        ->whereColumn('pictures.admin_id', 'products.admin_id')
+                        ->whereColumn('pictures.product_id', 'products.id')
                         ->selectRaw('count(*)'),
                 ]);
 

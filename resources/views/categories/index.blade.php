@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="p-8 w-10/12 overflow-y-scroll flex flex-col">
-            <div class="h-2/6 flex flex-col">
+            <div class="h-1/6 flex flex-col">
                 <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">
                     <p class="text-primary text-3xl font-bold">Categories List</p>
                     <div class="flex flex-row ml-auto">
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            <div class="h-4/6 overflow-x-auto">
+            <div class="h-5/6 overflow-x-auto">
                 <table id="categoriesTable" class="min-w-full mt-4 border-collapse border border-gray-300">
                     <thead>
                         <tr>

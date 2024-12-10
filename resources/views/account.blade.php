@@ -24,12 +24,12 @@
                 <p class="mt-4 text-secondary text-lg font-normal">Admin</p>
             </div>
             <div class="h-3/6 flex flex-col items-center justify-center space-y-3">
-                <a href="{{ route('categories') }}" 
+                <a href="{{ route('categories.index') }}" 
                    class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/category-active.png') }}" alt="Category Icon">
                     <p class="ml-4 text-secondary text-base font-light">Category</p>
                 </a>
-                <a href="{{ route('products') }}" 
+                <a href="{{ route('products.index') }}" 
                    class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/products-active.png') }}" alt="Products Icon">
                     <p class="ml-4 text-secondary text-base font-light">Products</p>
