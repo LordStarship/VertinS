@@ -40,4 +40,15 @@ class Products extends Model
     {
         return $this->hasMany(Pictures::class, 'product_id'); // Specify 'product_id' as the foreign key
     }
+    public function picture()
+    {
+        return $this->belongsTo(Pictures::class, 'picture_id')
+                    ->where('is_default', 1);
+    }
+
+    public function thumbnail()
+    {
+        return $this->hasOne(Pictures::class, 'product_id', 'id')->where('is_default', 1); // Correct key
+
+    }
 }

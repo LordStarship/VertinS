@@ -15,11 +15,15 @@ class PicturesSeeder extends Seeder
      */
     public function run(): void
     {
+        for ($i = 8; $i < 30; $i++) {
         Pictures::updateOrCreate([
-            'id' => '3',
+            'id' => $i,
             'admin_id' => '1',
+            'product_id' => $i,
+            'is_default' => '1',
             'name' => 'profiles',
-            'path' => 'storage/img/SK3.',
+            'path' => 'storage/img/SK1.jpg',
         ]);
+    }
     }
 }

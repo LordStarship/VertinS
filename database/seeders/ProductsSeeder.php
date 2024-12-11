@@ -15,14 +15,15 @@ class ProductsSeeder extends Seeder
      */
     public function run(): void
     {
-        Products::updateOrCreate([
-            'id' => '2',
-            'admin_id' => '1',
-            'picture_id' => '1',
-            'title' => 'Shorekeeper Starter Account',
-            'description' => 'lore ipsum',
-            'price' => '10000',
-            'status' => '1',
-        ]);
+        for ($i = 0; $i < 30; $i++) {
+            Products::updateOrCreate([
+                'id' => $i,
+                'admin_id' => '1',
+                'title' => 'JJK',
+                'description' => 'lore ipsum',
+                'price' => '10000',
+                'status' => '1',
+            ]);
+        }
     }
 }

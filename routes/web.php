@@ -8,6 +8,8 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\PicturesController;
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\ListController;
+use App\Http\Controllers\DetailController;
 
 // Route::get('/', function () {
 //     return view('home', ['title' => 'Home Page']);
@@ -59,9 +61,13 @@ Route::get('/about', function () {
     return view('about',['title' => 'About Us']);
 });
 
-Route::get('/', function () {
-    return view('avalestial',['title' => "Ava'Lestial Store"]);
-})->name('home');
+// Route::get('/', function () {
+//     return view('avalestial',['title' => "Ava'Lestial Store"]);
+// })->name('home');
+
+Route::get('/', [ListController::class, 'index'])->name('home');
+
+Route::get('/product/{id}', [DetailController::class, 'index'])->name('product');
 
 Route::get('/contact', function () {
     return view('contact',['title' => 'Contact Us']);
@@ -71,9 +77,9 @@ Route::get('/category', function () {
     return view('category',['title' => 'Category Page']);
 });
 
-Route::get('/product', function () {
-    return view('product',['title' => 'Product Details']);
-});
+// Route::get('/product', function () {
+//     return view('product',['title' => 'Product Details']);
+// });
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('products', ProductsController::class);
