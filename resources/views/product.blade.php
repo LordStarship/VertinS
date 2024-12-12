@@ -6,21 +6,43 @@
         <nav aria-label="Breadcrumb">
           {{-- @foreach($products as $product) --}}
         <!-- Image gallery -->
-        
-            
-        
-        <div class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-          @foreach ($product->pictures as $picture)
-          {{-- <img src={{ asset('storage/img/Char1.jpg') }} alt="Two each of gray, white, and black shirts laying flat." class="hidden aspect-[3/4] size-full rounded-lg object-cover lg:block object-left">
-          <div class="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-            <img src= {{ asset('storage/img/Weapon1.jpg') }} alt="Model wearing plain black basic tee." class="aspect-[3/2] size-full rounded-lg object-cover object-left">
-            <img src= {{ asset('storage/img/Banner1.jpg') }} alt="Model wearing plain gray basic tee." class="aspect-[3/2] size-full rounded-lg object-cover object-left">
-          </div>
-          <img src= {{ asset('storage/img/UL1.jpg') }} alt="Model wearing plain white basic tee." class="aspect-[4/5] size-full object-cover sm:rounded-lg lg:aspect-[3/4]"> --}}
-          <img src="{{ asset('storage/' . $picture->path) }}" alt="{{ $product->name }}" class="rounded shadow">
-          @endforeach
-        </div>
-    
+
+        {{-- <div class="mx-auto mt-6 max-w-2xl grid grid-cols-2 gap-4 sm:px-6 lg:max-w-7xl lg:px-8">
+  <img src="{{ asset('storage/img/Char1.jpg') }}" alt="Character Image" class="w-full h-60 rounded-lg object-cover">
+  <img src="{{ asset('storage/img/Weapon1.jpg') }}" alt="Weapon Image" class="w-full h-60 rounded-lg object-cover">
+  <img src="{{ asset('storage/img/Banner1.jpg') }}" alt="Banner Image" class="w-full h-60 rounded-lg object-cover">
+  <img src="{{ asset('storage/img/UL1.jpg') }}" alt="UL Image" class="w-full h-60 rounded-lg object-cover">
+</div> --}}
+
+<div class="mx-auto mt-6 max-w-2xl grid grid-cols-2 gap-4 sm:px-6 lg:max-w-7xl lg:px-8">
+  <!-- Image Grid -->
+  <img src="{{ asset('storage/img/UL1.jpg') }}" 
+       alt="Character Image" 
+       class="w-full h-64 rounded-lg object-cover cursor-pointer"
+       onclick="showImageModal(this.src)">
+  <img src="{{ asset('storage/img/Weapon1.jpg') }}" 
+       alt="Weapon Image" 
+       class="w-full h-64 rounded-lg object-cover cursor-pointer"
+       onclick="showImageModal(this.src)">
+  <img src="{{ asset('storage/img/Banner1.jpg') }}" 
+       alt="Banner Image" 
+       class="w-full h-64 rounded-lg object-cover cursor-pointer"
+       onclick="showImageModal(this.src)">
+  <img src="{{ asset('storage/img/banner1.jpg') }}" 
+       alt="UL Image" 
+       class="w-full h-64 rounded-lg object-cover cursor-pointer"
+       onclick="showImageModal(this.src)">
+</div>
+
+<!-- Modal -->
+<div id="imageModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-75">
+  <div class="relative">
+    <img id="modalImage" src="" alt="Full Screen Image" class="max-w-full max-h-screen rounded-lg">
+    <button onclick="closeImageModal()" 
+            class="absolute top-2 right-2 text-white text-3xl font-bold">&times;</button>
+  </div>
+</div>
+   
         <!-- Product info -->
         <div class="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
           <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
@@ -92,5 +114,31 @@
       </div>
     </div>
   </x-layout>
+
+  <script>
+    function showImageModal(src) {
+      const modal = document.getElementById('imageModal');
+      const modalImage = document.getElementById('modalImage');
+      modalImage.src = src;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
   
+      // Tambahkan event listener untuk tombol Escape
+      document.addEventListener('keydown', handleEscapeKey);
+    }
   
+    function closeImageModal() {
+      const modal = document.getElementById('imageModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+  
+      // Hapus event listener untuk tombol Escape
+      document.removeEventListener('keydown', handleEscapeKey);
+    }
+  
+    function handleEscapeKey(event) {
+      if (event.key === 'Escape') {
+        closeImageModal();
+      }
+    }
+  </script>
