@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Products extends Model
+class Product extends Model
 {
     use HasFactory;
 
@@ -19,13 +19,12 @@ class Products extends Model
             'price' => 'required|numeric|min:0',
             'categories' => 'required|array|min:1',
             'categories.*' => 'exists:categories,id',
+            'images' => 'array|max:4',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     
         if (!$isEdit) {
-            $rules['images'] = 'required|array|min:1'; // At least one image is required on creation
-            $rules['images.*'] = 'image|mimes:jpeg,png,jpg,gif,svg|max:2048';
-        } else {
-            $rules['images.*'] = 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'; // Optional for edit
+            $rules['images'] = 'required|array|min:1|max:4'; // At least one image is required on creation, maximum 4
         }
     
         return $rules;
@@ -34,21 +33,20 @@ class Products extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Categories::class, 'category_product', 'product_id', 'category_id');
+        return $this->belongsToMany(Category::class, 'category_product', 'product_id', 'category_id');
     }
     public function pictures()
     {
-        return $this->hasMany(Pictures::class, 'product_id'); // Specify 'product_id' as the foreign key
+        return $this->hasMany(Picture::class, 'product_id');
     }
     public function picture()
     {
-        return $this->belongsTo(Pictures::class, 'picture_id')
+        return $this->belongsTo(Picture::class, 'picture_id')
                     ->where('is_default', 1);
     }
-
     public function thumbnail()
     {
-        return $this->hasOne(Pictures::class, 'product_id', 'id')->where('is_default', 1); // Correct key
+        return $this->hasOne(Picture::class, 'product_id', 'id')->where('is_default', 1); 
 
     }
 }

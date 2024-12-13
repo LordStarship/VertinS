@@ -4,10 +4,11 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SignUpController;
-use App\Http\Controllers\ProductsController;
-use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\PicturesController;
-use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PictureController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\DetailController;
 
@@ -82,16 +83,14 @@ Route::get('/category', function () {
 // });
 
 Route::middleware(['auth'])->group(function () {
-    Route::resource('products', ProductsController::class);
-    Route::resource('categories', CategoriesController::class);
-    
-    Route::get('/account', [AccountsController::class, 'index'])->name('accounts');
-    Route::put('/account/update', [AccountsController::class, 'updateCurrentAdmin'])->name('account.update');
-    Route::put('/admins/{id}', [AccountsController::class, 'updateAdmin'])->name('admins.update');
-    Route::post('/admins/store', [AccountsController::class, 'store'])->name('admins.store');
-    Route::delete('/admin/{admin}', [AccountsController::class, 'destroy'])->name('admin.destroy');
+    Route::resource('products', ProductController::class);
+    Route::post('/products/search-categories', [ProductController::class, 'searchCategories'])->name('products.searchCategories');
 
-    Route::delete('pictures/{picture}', [PicturesController::class, 'destroy'])->name('pictures.destroy');
+    Route::resource('categories', CategoryController::class);
+    Route::resource('accounts', AccountController::class);
+    Route::resource('admins', AdminController::class);
+
+    Route::delete('pictures/{picture}', [PictureController::class, 'destroy'])->name('pictures.destroy');
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');

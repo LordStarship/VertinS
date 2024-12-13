@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pictures;
+use App\Models\Picture;
 use Illuminate\Support\Facades\Storage;
 
-class PicturesController extends Controller
+class PictureController extends Controller
 {
     public function destroy($id)
     {
-        $picture = Pictures::findOrFail($id);
+        $picture = Picture::findOrFail($id);
     
         if ($picture->delete()) {
             return response()->json(['message' => 'Picture deleted successfully.'], 200); // Success response

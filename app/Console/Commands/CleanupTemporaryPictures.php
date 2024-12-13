@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Pictures;
+use App\Models\Picture;
 use Illuminate\Support\Facades\Storage;
 
 class CleanupTemporaryPictures extends Command
@@ -27,7 +27,7 @@ class CleanupTemporaryPictures extends Command
      */
     public function handle()
     {
-        $expiredPictures = Pictures::where('is_temporary', true)->where('created_at', '<', now()->subHours(1))->get();
+        $expiredPictures = Picture::where('is_temporary', true)->where('created_at', '<', now()->subHours(1))->get();
 
         foreach ($expiredPictures as $picture) {
             Storage::delete('public/' . $picture->path);

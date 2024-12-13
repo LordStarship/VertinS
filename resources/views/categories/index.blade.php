@@ -29,14 +29,17 @@
                     <img class="w-5 ml-4" src="{{ asset('storage/img/category-inactive.png') }}" alt="Category Icon">
                     <p class="ml-4 text-primary text-base font-medium">Category</p>
                 </a>
-                
                 <a href="{{ route('products.index') }}" 
                    class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/products-active.png') }}" alt="Products Icon">
                     <p class="ml-4 text-secondary text-base font-light">Products</p>
                 </a>
-                
-                <a href="{{ route('accounts') }}" 
+                <a href="{{ route('admins.index') }}" 
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                    <img class="w-5 ml-4" src="{{ asset('storage/img/admin-active.png') }}" alt="Account Info Icon">
+                    <p class="ml-4 text-secondary text-base font-light">Admin List</p>
+                </a>
+                <a href="{{ route('accounts.index') }}" 
                    class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/account-info-active.png') }}" alt="Account Info Icon">
                     <p class="ml-4 text-secondary text-base font-light">Account Info</p>
@@ -57,7 +60,7 @@
                 <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">
                     <p class="text-primary text-3xl font-bold">Categories List</p>
                     <div class="flex flex-row ml-auto">
-                        <a href={{ route('categories.create')}} class="px-2 bg-primary rounded-md flex items-center justify-center cursor-pointer">
+                        <a href="javascript:void(0);" onclick="openAddModal()" class="px-2 bg-primary rounded-md flex items-center justify-center cursor-pointer">
                             <p class="text-secondary text-md font-medium">Add New Category</p>
                         </a>
                     </div>
@@ -77,13 +80,24 @@
         </div>
     </div>
 
+    <div id="addModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-8 rounded-md w-1/3">
+            <h2 class="text-center text-xl font-semibold mb-4">Add Category</h2>
+            <form id="addModalForm" action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input id="addCategoryName" type="text" name="name" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Category Name" required>
+                <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md">Ok</button>
+            </form>
+        </div>
+    </div>
+
     <div id="editModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
         <div class="bg-white p-8 rounded-md w-1/3">
             <h2 class="text-center text-xl font-semibold mb-4">Edit Category</h2>
             <form id="editCategoryForm" method="POST">
                 @csrf
                 @method('PUT')
-                <input id="categoryName" type="text" name="name" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Category Name" required>
+                <input id="editCategoryName" type="text" name="name" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Category Name" required>
                 <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md">Ok</button>
             </form>
         </div>
@@ -126,15 +140,24 @@
                 }
             });
         });
+
+        function openAddModal() {
+            document.getElementById('addModal').classList.remove('hidden');
+        }
+
+        document.getElementById('addModal').addEventListener('click', function (event) {
+            if (event.target === this) {
+                closeAddModal();
+            }
+        });
+
+        function closeAddModal() {
+            document.getElementById('addModal').classList.add('hidden');
+        }
         
         function openEditModal(id, name) {
-            // Show the modal
             document.getElementById('editModal').classList.remove('hidden');
-            
-            // Pre-fill the input field with the current category name
-            document.getElementById('categoryName').value = name;
-            
-            // Update the form action to the correct URL
+            document.getElementById('editCategoryName').value = name;
             document.getElementById('editCategoryForm').action = `/categories/${id}`;
         }
 
@@ -145,7 +168,6 @@
         });
 
         function closeEditModal() {
-            // Hide the modal
             document.getElementById('editModal').classList.add('hidden');
         }
 
@@ -162,10 +184,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.message === 'Category updated successfully') {
-                    // Close the modal
                     closeEditModal();
-
-                    // Reload the categories table or update the list
                     location.reload();
                 }
             })
@@ -177,21 +196,17 @@
         let deleteCategoryId = null;
 
         function openDeleteModal(id) {
-            // Store the category ID and show the delete modal
             deleteCategoryId = id;
             document.getElementById('deleteModal').classList.remove('hidden');
         }
 
         function closeDeleteModal() {
-            // Hide the delete modal and reset the category ID
             document.getElementById('deleteModal').classList.add('hidden');
             deleteCategoryId = null;
         }
 
-        // Handle the delete confirmation button
         document.getElementById('confirmDelete').addEventListener('click', function () {
             if (deleteCategoryId) {
-                // Submit the DELETE request using fetch
                 fetch(`/categories/${deleteCategoryId}`, {
                     method: 'DELETE',
                     headers: {
@@ -201,7 +216,6 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.message === 'Category deleted successfully') {
-                        // Refresh the table or reload page after deletion
                         location.reload();
                     } else {
                         alert('Failed to delete category.');
@@ -212,7 +226,6 @@
             closeDeleteModal();
         });
 
-        // Close the modal by clicking outside it
         document.getElementById('deleteModal').addEventListener('click', function (event) {
             if (event.target === this) {
                 closeDeleteModal();

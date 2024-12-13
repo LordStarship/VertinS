@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admins;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 
-class AccountsController extends Controller
+class AdminController extends Controller
 {
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $admins = Admins::where('id', '!=', 1)->get();
+            $admins = Admin::where('id', '!=', 1)->get();
             return datatables()->of($admins)
                     ->addColumn('actions', function ($row) {
                     // Encode the data to JSON format
@@ -29,7 +29,7 @@ class AccountsController extends Controller
             ->rawColumns(['actions'])
             ->make(true);
         }
-        return view('account');
+        return view('admins.index');
     }
 
     public function store(Request $request)
@@ -40,50 +40,33 @@ class AccountsController extends Controller
             'password' => 'required|min:8',
         ]);
 
-        $admin = new Admins();
+        $admin = new Admin();
         $admin->name = $validatedData['name'];
         $admin->email = $validatedData['email'];
         $admin->password = bcrypt($validatedData['password']);
         $admin->save();
 
-        return redirect()->route('accounts')->with('success', 'Admin added successfully');
+        return redirect()->route('admins.index')->with('success', 'Admin added successfully');
     }
-    public function updateCurrentAdmin(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|unique:admins,name,' . auth('web')->id(),
-            'email' => 'required|email|unique:admins,email,' . auth('web')->id(),
-        ]);
-    
-        $admin = Admins::find(auth('web')->id());
-        $admin->name = $validatedData['name'];
-        $admin->email = $validatedData['email'];
-        $admin->save();
 
-        session(['username' => $admin->name, 'useremail' => $admin->email]);
-    
-        return redirect()->route('accounts');
-    }
-    
-    public function updateAdmin(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
             'name' => 'required|string|unique:admins,name,' . $id,
             'email' => 'required|email|unique:admins,email,' . $id,
         ]);
     
-        $admin = Admins::findOrFail($id);
+        $admin = Admin::findOrFail($id);
         $admin->name = $validatedData['name'];
         $admin->email = $validatedData['email'];
         $admin->save();
         
-        return redirect()->route('accounts')->with('success', 'Admin updated successfully');
+        return redirect()->route('admins.index')->with('success', 'Admin updated successfully');
     }
 
-
-    public function destroy(Admins $admin)
+    public function destroy(Admin $admin)
     {
         $admin->delete();
-        return redirect()->route('accounts')->with('success', 'Admin deleted successfully');
+        return redirect()->route('admins.index')->with('success', 'Admin deleted successfully');
     }
 }

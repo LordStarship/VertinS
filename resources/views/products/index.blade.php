@@ -35,8 +35,12 @@
                     <img class="w-5 ml-4" src="{{ asset('storage/img/products-inactive.png') }}" alt="Products Icon">
                     <p class="ml-4 text-primary text-base font-medium">Products</p>
                 </a>
-                
-                <a href="{{ route('accounts') }}" 
+                <a href="{{ route('admins.index') }}" 
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                    <img class="w-5 ml-4" src="{{ asset('storage/img/admin-active.png') }}" alt="Account Info Icon">
+                    <p class="ml-4 text-secondary text-base font-light">Admin List</p>
+                </a>
+                <a href="{{ route('accounts.index') }}" 
                    class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/account-info-active.png') }}" alt="Account Info Icon">
                     <p class="ml-4 text-secondary text-base font-light">Account Info</p>
@@ -80,7 +84,6 @@
         </div>
     </div>
 
-    <!-- Delete Modal -->
     <div id="deleteModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-gray-800 bg-opacity-50">
         <div class="bg-white rounded shadow-lg w-1/3 p-6 relative">
             <button onclick="closeDeleteModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
@@ -176,7 +179,7 @@
             .then(data => {
                 alert(data.message || 'Product deleted successfully.');
                 closeDeleteModal();
-                location.reload(); // Reload the page to reflect changes
+                location.reload(); 
             })
             .catch(error => {
                 console.error(error);

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Admins;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,7 +28,7 @@ class LoginController extends Controller
         $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
         // Fetch the user from the database
-        $user = Admins::where($fieldType, $login)->first();
+        $user = Admin::where($fieldType, $login)->first();
 
         // Check if user exists
         if (!$user) {

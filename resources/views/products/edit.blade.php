@@ -25,15 +25,18 @@
                    class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/category-active.png') }}" alt="Category Icon">
                     <p class="ml-4 text-secondary text-base font-light">Category</p>
-                </a>
-                
+                </a>                
                 <a href="{{ route('products.index') }}" 
                    class="py-2 w-4/5 flex items-center border border-secondary bg-secondary rounded-md cursor-pointer hover:bg-secondary-light">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/products-inactive.png') }}" alt="Products Icon">
                     <p class="ml-4 text-primary text-base font-medium">Products</p>
                 </a>
-                
-                <a href="{{ route('accounts') }}" 
+                <a href="{{ route('admins.index') }}" 
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                    <img class="w-5 ml-4" src="{{ asset('storage/img/admin-active.png') }}" alt="Account Info Icon">
+                    <p class="ml-4 text-secondary text-base font-light">Admin List</p>
+                </a>
+                <a href="{{ route('accounts.index') }}" 
                    class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/account-info-active.png') }}" alt="Account Info Icon">
                     <p class="ml-4 text-secondary text-base font-light">Account Info</p>
@@ -49,54 +52,42 @@
                 </form>
             </div>
         </div>
-        <div class="p-8 w-10/12 overflow-y-scroll flex flex-col">
+        <div class="p-8 w-10/12 flex flex-col">
             <div class="h-1/6 flex flex-col">
                 <div class="pb-4 flex flex-row w-full   ">
                     <p class="text-primary text-3xl font-bold">Edit Product</p>
                 </div>
             </div>
             <div class="h-5/6 overflow-x-auto">
-                <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data" class="grid grid-cols-2 gap-6">
                     @csrf
                     @method('PUT')
-            
-                    <!-- Product Title -->
-                    <div class="mb-4">
-                        <label for="title" class="block text-sm font-medium">Title</label>
-                        <input type="text" id="title" name="title" value="{{ $product->title }}" required
-                            class="w-full p-2 border border-gray-300 rounded">
+                    <div class="col-span-1">
+                        <label for="title" class="block text-sm font-medium text-gray-700">Product Name</label>
+                        <input type="text" id="title" name="title" value="{{ $product->title }}" class="mt-1 pl-2 block w-full border border-gray-300 rounded-md shadow-sm" maxlength="100" required/>
                     </div>
-            
-                    <!-- Product Description -->
-                    <div class="mb-4">
-                        <label for="description" class="block text-sm font-medium">Description</label>
-                        <textarea id="description" name="description" required
-                            class="w-full p-2 border border-gray-300 rounded">{{ $product->description }}</textarea>
+                    <div class="col-span-1">
+                        <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                        <input type="number" id="price" name="price" value="{{ $product->price }}" step="0.01" class="mt-1 pl-2 block w-full border border-gray-300 rounded-md shadow-sm" required>
                     </div>
-            
-                    <!-- Product Price -->
-                    <div class="mb-4">
-                        <label for="price" class="block text-sm font-medium">Price (Rupiah)</label>
-                        <input type="number" id="price" name="price" value="{{ $product->price }}" step="0.01" required
-                            class="w-full p-2 border border-gray-300 rounded">
+                    <div class="col-span-2">
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea id="description" name="description" rows="4" class="mt-1 pl-2 block w-full border border-gray-300 rounded-md shadow-sm" required>{{ $product->description }}</textarea>
                     </div>
-            
-                    <!-- Categories -->
                     <div class="mb-4">
-                        <label for="categories" class="block text-sm font-medium">Categories</label>
-                        <select id="categories" name="categories[]" multiple required class="w-full p-2 border border-gray-300 rounded">
-                            @foreach ($categories as $category)
-                            <option value="{{ $category->id }}"
-                                {{ $product->categories->contains($category->id) ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
-                            @endforeach
-                        </select>
+                        <label for="search-input" class="block text-sm font-medium text-gray-700">Search Categories</label>
+                        <input type="text" id="search-input" class="mt-1 pl-2 block w-full border border-gray-300 rounded-md shadow-sm" placeholder="Type to search...">
                     </div>
-            
-                    <!-- Pictures -->
-                    <!-- Pictures -->
-                    <div class="mb-4">
+                    <div id="categories-container" class="h-40 overflow-y-scroll border border-gray-300 rounded-md p-2">
+                        @foreach($categories as $category)
+                            <div class="flex items-center mb-2">
+                                <input type="checkbox" id="category-{{ $category->id }}" name="categories[]" value="{{ $category->id }}" class="mr-2" 
+                                {{ $product->categories->contains($category->id) ? 'checked' : '' }}>
+                                <label for="category-{{ $category->id }}" class="text-sm font-medium text-gray-700">{{ $category->name }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="col-span-2 mb-4">
                         <label for="images" class="block font-semibold">Pictures</label>
                         <div class="flex gap-2">
                             @foreach ($product->pictures as $index => $picture)
@@ -115,13 +106,11 @@
                         </div>
                         <p class="text-sm text-gray-600 mt-1">First picture is the default thumbnail.</p>
                     </div>
-
-                    <!-- Save and Cancel Buttons -->
-                    <div class="flex justify-end gap-4">
-                        <a href="{{ route('products.index') }}" class="py-2 px-4 rounded border-secondary bg-gray-200 text-secondary font-bold">
+                    <div class="col-span-2 flex justify-end gap-4 pr-4">
+                        <a href="{{ route('products.index') }}" class="py-2 px-4 rounded border-secondary bg-primary text-secondary font-bold">
                             Cancel
                         </a>
-                        <button type="submit" class="py-2 px-4 rounded border-secondary bg-primary text-secondary font-bold">
+                        <button type="submit" class="col-span-2 py-2 px-4 rounded border-secondary bg-primary text-secondary font-bold">
                             Save Changes
                         </button>
                     </div>
@@ -147,12 +136,68 @@
                 throw new Error('Failed to delete picture.');
             })
             .then(data => {
-                alert(data.message); // Optional: Show success message
-                location.reload(); // Reload page to reflect changes
+                alert(data.message); 
+                location.reload(); 
             })
             .catch(error => {
-                alert(error.message); // Display error message
+                alert(error.message); 
             });
         }
+    }
+
+    document.querySelector('#search-input').addEventListener('input', (event) => {
+    const searchValue = event.target.value.trim();
+    
+    if (!searchValue) {
+        renderCategoryList([]); 
+        return;
+    }
+
+    fetch('/products/search-categories', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), 
+        },
+        body: JSON.stringify({ query: searchValue }),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            renderCategoryList(data); 
+        })
+        .catch((error) => {
+            console.error('Error fetching categories:', error);
+        });
+    });
+
+    function renderCategoryList(categories) {
+        const categoryContainer = document.querySelector('#categories-container');
+        categoryContainer.innerHTML = ''; 
+
+        if (categories.length === 0) {
+            categoryContainer.innerHTML = '<p class="text-gray-500">No categories found.</p>';
+            return;
+        }
+
+        categories.forEach((category) => {
+            const label = document.createElement('label');
+            label.className = 'block';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'categories[]';
+            checkbox.value = category.id;
+
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(` ${category.name}`));
+
+            categoryContainer.appendChild(label);
+        });
     }
 </script>
