@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Media;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
     public function index()
     {
-        return view('accounts.index');
+        $adminId = auth('web')->id();
+        $media = Media::where('admin_id', $adminId)->get();
+
+        return view('accounts.index', compact('media'));
     }
 
     public function update(Request $request, $account)

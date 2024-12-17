@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\DetailController;
@@ -89,6 +90,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('accounts', AccountController::class);
     Route::resource('admins', AdminController::class);
+    Route::resource('medias', MediaController::class)->except(['create', 'edit']);
 
     Route::delete('pictures/{picture}', [PictureController::class, 'destroy'])->name('pictures.destroy');
 });

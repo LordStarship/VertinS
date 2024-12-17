@@ -13,7 +13,6 @@ class CreateMediasTable extends Migration
             $table->integer('admin_id');
             $table->string('social_media', 255);
             $table->string('url', 255);
-            $table->boolean('is_default')->default(false);
 
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->timestamps();

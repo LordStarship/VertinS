@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://kit.fontawesome.com/7a5b7d67a3.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <div class="h-screen flex flex-row">
@@ -63,22 +64,53 @@
             </div>
             <div class="h-5/6 flex flex-row">
                 <div class="w-1/2 flex flex-col">
-                    <div class="h-2/6">
-                        <div class="flex flex-col">
-                            <div class="flex flex-row">
-                                <p class="mr-8 text-primary text-lg font-medium">Username</p>
-                                <input class="border border-grey-600 text-primary text-center font-medium" disabled value="{{ session('username') }}"></p>
-                            </div>
-                            <div class="mt-4 flex flex-row">
-                                <p class="mr-8 text-primary text-lg font-medium">Email</p>
-                                <input class="border border-grey-600 text-primary text-center font-medium" disabled value="{{ session('useremail') }}"></p>
-                            </div>
-                            <button onclick="openEditUserModal()" class="w-1/6 mt-4 py-2 bg-primary text-secondary rounded-md">Edit</button>
-                        </div>                
+                    <div class="flex flex-row">
+                        <p class="mr-8 text-primary text-lg font-medium">Username</p>
+                        <input class="border border-grey-600 text-primary text-center font-medium" disabled value="{{ session('username') }}"></p>
                     </div>
+                    <div class="mt-4 flex flex-row">
+                        <p class="mr-8 text-primary text-lg font-medium">Email</p>
+                        <input class="border border-grey-600 text-primary text-center font-medium" disabled value="{{ session('useremail') }}"></p>
+                    </div>
+                    <button onclick="openEditUserModal()" class="w-1/6 mt-4 py-2 bg-primary text-secondary rounded-md">Edit</button>
                 </div>
                 <div class="w-1/2 flex flex-col">
-                </div>
+                    @if($media->isNotEmpty())
+                        <h3 class="text-primary text-lg font-bold mb-4">Social Media</h3>
+                        @foreach($media as $m)
+                            <div class="flex flex-row items-center mb-2">
+                                <p class="mr-8 text-primary text-lg font-medium">{{ $m->social_media }}</p>
+                                <input class="border border-grey-600 text-primary text-center font-medium flex-1" disabled value="{{ $m->url }}">
+                            </div>
+                            <button onclick="openAddMediaModal()" class="w-1/6 mt-4 py-2 bg-primary text-secondary rounded-md">Add</button>
+                            <button onclick="openEditMediaModal({{ $m->id }})" class="w-1/6 mt-4 py-2 bg-primary text-secondary rounded-md">Edit</button>
+                        @endforeach                      
+                    @else
+                        <p class="text-primary text-md">No social media added yet. Click the button below to add one!</p>
+                        <button onclick="openAddMediaModal()" class="mt-4 py-2 bg-primary text-secondary rounded-md">
+                            Add Social Media
+                        </button>
+                    @endif
+                </div>                
+            </div>
+        </div>
+
+        <div id="addMediaModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white p-8 rounded-md w-1/3">
+                <h2 class="text-center text-xl font-semibold mb-4">Add Social Media</h2>
+                <form id="addMediaForm" method="POST" action="{{ route('medias.store') }}">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="type" class="block text-primary font-medium">Social Media</label>
+                        <input id="type" type="text" name="social_media" class="w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., Twitter" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="url" class="block text-primary font-medium">URL</label>
+                        <input id="url" type="url" name="url" class="w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., https://twitter.com/yourprofile" required>
+                    </div>
+                    <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md">Save</button>
+                    <button type="button" onclick="closeAddMediaModal()" class="mt-4 bg-gray-300 text-black w-full p-2 rounded-md">Cancel</button>
+                </form>
             </div>
         </div>
 
@@ -100,6 +132,31 @@
                 </form>
             </div>
         </div>
+
+        <!-- Edit Media Modal -->
+        <div id="editMediaModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white p-8 rounded-md w-1/3">
+                <h2 class="text-center text-xl font-semibold mb-4">Edit Social Media</h2>
+                @foreach($media as $m)
+                    <div class="flex flex-row items-center mb-2">
+                        <form id="editMediaForm" method="POST" action="{{ route('medias.update', $m->id) }}">
+                            @csrf
+                            @method('PUT')
+                            <p class="mr-8 text-primary text-lg font-medium">{{ $m->social_media }}</p>
+                            <input 
+                                name="url" 
+                                class="border border-grey-600 text-primary text-center font-medium flex-1" 
+                                value="{{ $m->url }}"
+                            >
+                            <button type="submit" class="ml-4 py-1 px-3 bg-primary text-secondary rounded-md">
+                                Save
+                            </button>
+                        </form>
+                    </div>
+                @endforeach       
+            </div>
+        </div>
+
     </div>
 </body>
 </html>
@@ -112,9 +169,60 @@
         document.getElementById('editUserModal').classList.add('hidden');
     }
 
+    function openAddMediaModal() {
+        document.getElementById('addMediaModal').classList.remove('hidden');
+    }
+
+    function closeAddMediaModal() {
+        document.getElementById('addMediaModal').classList.add('hidden');
+    }
+
     document.getElementById('editUserModal').addEventListener('click', function (event) {
         if (event.target === this) {
             closeEditUserModal();
         }
     });
+
+    function openEditMediaModal(id) {
+        console.log(`Fetching media with ID: ${id}`); // Log the ID
+        fetch(`/medias/${id}`)
+            .then(response => {
+                console.log('Response:', response); // Log the response object
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch. Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Fetched Data:', data); // Log the fetched data
+                const { social_media, url } = data.data;
+                document.getElementById('edit-social-media').value = social_media;
+                document.getElementById('edit-url').value = url;
+                document.getElementById('editMediaModal').classList.remove('hidden');
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Failed to fetch social media details.');
+            });
+    }    
+
+    function closeEditMediaModal() {
+        document.getElementById('editMediaModal').classList.add('hidden');
+    }
+
+    function deleteMedia(mediaId) {
+        if (confirm('Are you sure you want to delete this social media?')) {
+            $.ajax({
+                url: `/medias/${mediaId}`,
+                method: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    alert(response.message);
+                    location.reload();
+                }
+            });
+        }
+    }
 </script>
