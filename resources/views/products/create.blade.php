@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    @vite('resources/css/app.css')
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite('resources/css/app.css')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Add New Products</title>
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +31,12 @@
                     <img class="w-5 ml-4" src="{{ asset('storage/img/products-inactive.png') }}" alt="Products Icon">
                     <p class="ml-4 text-primary text-base font-medium">Products</p>
                 </a>
-                <a href="{{ route('accounts') }}" 
+                <a href="{{ route('admins.index') }}" 
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                    <img class="w-5 ml-4" src="{{ asset('storage/img/admin-active.png') }}" alt="Account Info Icon">
+                    <p class="ml-4 text-secondary text-base font-light">Admin List</p>
+                </a>
+                <a href="{{ route('accounts.index') }}" 
                    class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/account-info-active.png') }}" alt="Account Info Icon">
                     <p class="ml-4 text-secondary text-base font-light">Account Info</p>
@@ -46,43 +52,112 @@
                 </form>
             </div>
         </div>
-        <div class="p-4 w-10/12 overflow-y-scroll flex flex-col">
+        <div class="p-4 w-full flex flex-col">
             <div class="container mx-auto p-6">
-                <h1 class="text-2xl font-bold mb-4">Add New Product</h1>
-                <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-4">
-                        <label for="title" class="block text-sm font-medium text-gray-700">Product Name</label>
-                        <input type="text" id="title" name="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" maxlength="100" required/>
+                <div class="h-1/6 flex flex-col">
+                    <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">
+                        <p class="text-primary text-3xl font-bold">Add Product</p>
                     </div>
-                    <div class="mb-4">
-                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                        <textarea id="description" name="description" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></textarea>
-                    </div>
-                    <div class="mb-4">
-                        <label for="categories" class="block text-sm font-medium text-gray-700">Categories</label>
-                        <select id="categories" name="categories[]" multiple class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                </div>
+                <div class="h-5/6 overflow-x-auto">
+                    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-2 gap-6">
+                        @csrf
+                        <div class="col-span-1">
+                            <label for="title" class="block text-sm font-medium text-gray-700">Product Name</label>
+                            <input type="text" id="title" name="title" class="mt-1 pl-2 block w-full border border-gray-300 rounded-md shadow-sm" maxlength="100" required/>
+                        </div>
+                        <div class="col-span-1">
+                            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                            <input type="number" id="price" name="price" step="0.01" class="mt-1 pl-2 block w-full border border-gray-300 rounded-md shadow-sm" required>
+                        </div>
+                        <div class="col-span-2">
+                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea id="description" name="description" rows="4" class="mt-1 pl-2 block w-full border border-gray-300 rounded-md shadow-sm" required></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label for="search-input" class="block text-sm font-medium text-gray-700">Search Categories</label>
+                            <input type="text" id="search-input" class="mt-1 pl-2 block w-full border border-gray-300 rounded-md shadow-sm" placeholder="Type to search...">
+                        </div>
+                        <div id="categories-container" class="h-40 overflow-y-scroll border border-gray-300 rounded-md p-2">
                             @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                <div class="flex items-center mb-2">
+                                    <input type="checkbox" id="category-{{ $category->id }}" name="categories[]" value="{{ $category->id }}" class="mr-2">
+                                    <label for="category-{{ $category->id }}" class="text-sm font-medium text-gray-700">{{ $category->name }}</label>
+                                </div>
                             @endforeach
-                        </select>
-                        <small class="text-gray-500">Hold down Ctrl (Windows) or Command (Mac) to select multiple options.</small>
-                    </div>
-                    <div class="mb-4">
-                        <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
-                        <input type="number" id="price" name="price" step="0.01" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="images" class="block text-sm font-medium text-gray-700">Images</label>
-                        <input type="file" id="images" name="images[]" multiple class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" accept="image/*" required>
-                        <small class="text-gray-500">You can upload up to 5 images. The first image will be set as the default thumbnail.</small>
-                    </div>
-                    <button type="submit" class="bg-primary text-secondary px-4 py-2 rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-offset-2">
-                        Add Product
-                    </button>
-                </form>
+                        </div>
+                        <div class="col-span-2">
+                            <label for="images" class="block text-sm font-medium text-gray-700">Images</label>
+                            <input type="file" id="images" name="images[]" multiple class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" accept="image/*" required>
+                            <small class="text-gray-500">You can upload up to 4 images. The first image will be set as the default thumbnail.</small>
+                        </div>
+                        <div class="col-span-2 pb-8 flex justify-end">
+                            <button type="submit" class="bg-primary text-secondary px-4 py-2 rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-offset-2">
+                                Add Product
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>        
+        </div>     
     </div>
 </body>
 </html>
+<script>
+    document.querySelector('#search-input').addEventListener('input', (event) => {
+    const searchValue = event.target.value.trim();
+    
+    if (!searchValue) {
+        renderCategoryList([]); 
+        return;
+    }
+
+    fetch('/products/search-categories', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), 
+        },
+        body: JSON.stringify({ query: searchValue }),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            renderCategoryList(data); 
+        })
+        .catch((error) => {
+            console.error('Error fetching categories:', error);
+        });
+    });
+
+    function renderCategoryList(categories) {
+        const categoryContainer = document.querySelector('#categories-container');
+        categoryContainer.innerHTML = ''; 
+
+        if (categories.length === 0) {
+            categoryContainer.innerHTML = '<p class="text-gray-500">No categories found.</p>';
+            return;
+        }
+
+        categories.forEach((category) => {
+            const label = document.createElement('label');
+            label.className = 'block';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'categories[]';
+            checkbox.value = category.id;
+
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(` ${category.name}`));
+
+            categoryContainer.appendChild(label);
+        });
+    }
+</script>
+

@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categories;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
-class CategoriesController extends Controller
+class CategoryController extends Controller
 {
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $categories = Categories::withCount('products')->get();
+            $categories = Category::withCount('products')->get();
             return DataTables::of($categories)
                 ->addColumn('actions', function ($row) {
                     return '
@@ -41,13 +41,11 @@ class CategoriesController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the incoming request
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
 
-        // Create the new category
-        $category = new Categories();
+        $category = new Category();
         $category->name = $request->input('name');
         $category->admin_id = Auth::guard('web')->id(); 
 
@@ -60,34 +58,25 @@ class CategoriesController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validate the category name
         $request->validate([
             'name' => 'required|regex:/^[a-zA-Z0-9 ]+$/',
         ]);
 
-        // Find the category by ID and update the name
-        $category = Categories::findOrFail($id);
+        $category = Category::findOrFail($id);
         $category->name = $request->name;
         $category->save();
 
-        // Return a response to indicate success
         return response()->json(['message' => 'Category updated successfully']);
     }
 
     public function destroy($id)
     {
-        // Find the category by ID
-        $category = Categories::find($id);
-
-        // Check if category exists
+        $category = Category::find($id);
         if (!$category) {
             return response()->json(['message' => 'Category not found'], 404);
         }
-
-        // Delete the category
         $category->delete();
 
-        // Return success response
         return response()->json(['message' => 'Category deleted successfully']);
     }
 }

@@ -34,11 +34,15 @@
                     <img class="w-5 ml-4" src="{{ asset('storage/img/products-active.png') }}" alt="Products Icon">
                     <p class="ml-4 text-secondary text-base font-light">Products</p>
                 </a>
-                
-                <a href="{{ route('accounts') }}" 
+                <a href="{{ route('admins.index') }}" 
                    class="py-2 w-4/5 flex items-center border border-secondary bg-secondary rounded-md cursor-pointer hover:bg-secondary-light">
-                    <img class="w-5 ml-4" src="{{ asset('storage/img/account-info-inactive.png') }}" alt="Account Info Icon">
-                    <p class="ml-4 text-primary text-base font-medium">Account Info</p>
+                    <img class="w-5 ml-4" src="{{ asset('storage/img/admin-inactive.png') }}" alt="Account Info Icon">
+                    <p class="ml-4 text-primary text-base font-medium">Admin List</p>
+                </a>
+                <a href="{{ route('accounts.index') }}" 
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                    <img class="w-5 ml-4" src="{{ asset('storage/img/account-info-active.png') }}" alt="Account Info Icon">
+                    <p class="ml-4 text-secondary text-base font-light">Account Info</p>
                 </a>
             </div>            
             <div class="h-1/6 flex flex-row items-center justify-center">
@@ -53,30 +57,16 @@
         </div>
         <div class="p-8 w-10/12 overflow-y-scroll flex flex-col">
             <div class="h-1/6 flex flex-col">
-                <div class="pb-4 w-full border-b-2 border-gray-300">
-                    <p class="text-primary text-3xl font-bold">Account Info</p>
-                </div>
-            </div>
-            <div class="h-2/6">
-                <div class="flex flex-col">
-                    <div class="flex flex-row">
-                        <p class="mr-8 text-primary text-lg font-medium">Username</p>
-                        <input class="border border-grey-600 text-primary text-center font-medium" disabled value="{{ session('username') }}"></p>
-                    </div>
-                    <div class="mt-4 flex flex-row">
-                        <p class="mr-8 text-primary text-lg font-medium">Email</p>
-                        <input class="border border-grey-600 text-primary text-center font-medium" disabled value="{{ session('useremail') }}"></p>
-                    </div>
-                    <button onclick="openEditUserModal()" class="w-1/6 mt-4 py-2 bg-primary text-secondary rounded-md">Edit</button>
-                </div>                
-            </div>
-            <div class="h-1/6 flex flex-col">
-                <div class="pb-4 w-full border-b-2 border-gray-300">
+                <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">
                     <p class="text-primary text-3xl font-bold">Admins List</p>
+                    <div class="flex flex-row ml-auto">
+                        <a href="javascript:void(0);" onclick="openAddAdminModal()" class="px-2 bg-primary rounded-md flex items-center justify-center cursor-pointer">
+                            <p class="text-secondary text-md font-medium">Add New Admin</p>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="h-2/6 flex flex-col">
-                <button onclick="openAddAdminModal()" class="mb-4 w-1/6 py-2 bg-primary text-secondary rounded-md">Add Admin</button>
+            <div class="h-5/6 flex flex-col">
                 <div class="h-full">
                     <table id="adminsTable" class="w-full text-left border-collapse border border-gray-300">
                         <thead class="bg-gray-200">
@@ -89,26 +79,6 @@
                         </thead>
                     </table>
                 </div>
-            </div>
-        </div>
-
-        <!-- Add Admin Modal -->
-        <div id="editUserModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-            <div class="bg-white p-8 rounded-md w-1/3">
-                <h2 class="text-center text-xl font-semibold mb-4">Edit Account Info</h2>
-                <form id="editUserForm" method="POST" action="{{ route('account.update') }}">
-                    @csrf
-                    @method('PUT')
-                    <div class="mb-4">
-                        <label for="username" class="block text-primary font-medium">Username</label>
-                        <input id="username" type="text" name="name" class="w-full p-2 border border-gray-300 rounded-md" value="{{ session('username') }}" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="email" class="block text-primary font-medium">Email</label>
-                        <input id="email" type="email" name="email" class="w-full p-2 border border-gray-300 rounded-md" value="{{ session('useremail') }}" required>
-                    </div>
-                    <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md">Save</button>
-                </form>
             </div>
         </div>
 
@@ -175,7 +145,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('accounts') }}",
+                    url: "{{ route('admins.index') }}",
                     error: function(xhr) {
                         console.error('DataTables AJAX error:', xhr.responseText);
                         alert('Failed to load data. Check the console for details.');
@@ -205,14 +175,6 @@
             document.getElementById('addAdminModal').classList.add('hidden');
         }
 
-        function openEditUserModal() {
-            document.getElementById('editUserModal').classList.remove('hidden');
-        }
-
-        function closeEditUserModal() {
-            document.getElementById('editUserModal').classList.add('hidden');
-        }
-
         function openEditAdminModal(admin) {
         const editAdminForm = document.getElementById('editAdminForm');
         editAdminForm.action = `/admins/${admin.id}`;
@@ -227,7 +189,7 @@
 
         function openDeleteAdminModal(adminId) {
             document.getElementById('deleteAdminModal').classList.remove('hidden');
-            document.getElementById('deleteAdminForm').action = `/admin/${adminId}`;
+            document.getElementById('deleteAdminForm').action = `/admins/${adminId}`;
         }
 
         function closeDeleteAdminModal() {
