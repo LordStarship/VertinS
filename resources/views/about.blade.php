@@ -4,7 +4,7 @@
       <div class="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
         <div>
           <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Avalon Celestial Store</h2>
-          <p class="mt-4 text-gray-500">Avalon Celestial Store adalah sebuah toko daring yang menyediakan layanan penjualan akun untuk berbagai game populer. Toko ini menghadirkan beragam pilihan akun premium dan eksklusif untuk para gamer, termasuk untuk game seperti Honkai: Star Rail,Wuthering Waves, Reverse: 1999, dan Genshin Impact.<br>
+          <p class="mt-4 text-gray-500">Avalon Celestial Store adalah sebuah toko daring yang menyediakan layanan penjualan akun untuk berbagai game populer. Toko ini menghadirkan beragam pilihan akun premium dan eksklusif untuk para gamer, termasuk untuk game seperti Honkai: Star Rail,Wuthering Waves, Reverse: 1999, dan lain lain  <br>
           Dengan fokus pada kualitas dan kepuasan pelanggan, Avalon Celestial atau yang disebut Ava'Lestial menjadi tempat yang terpercaya bagi para pemain yang mencari akun dengan progres tertentu, karakter, atau item langka untuk meningkatkan pengalaman bermain mereka.</p>
     
           <dl class="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">

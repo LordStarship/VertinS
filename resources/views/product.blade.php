@@ -58,9 +58,9 @@
                 <div class="bg-black rounded-md min-h-[170px]">
                     <h3 class="sr-only">{{ $product->description }}</h3>
                     
-                    <div class="space-y-5">
+                    <div class="space-y-1">
                         <h1 class="text-3xl font-bold text-yellow-300 pl-4 py-1"> Contact</h1>
-                        <ul role="list" class="space-y-3 pl-4 text-sm">
+                        <ul role="list" class="space-y-2 pl-4 py-2 text-sm" >
                             <li class="text-yellow-300"><span class="text-yellow-300">Whatsapp : </span></li>
                             <li class="text-yellow-300"><span class="text-yellow-300">Facebook : </span></li>
                             <li class="text-yellow-300"><span class="text-yellow-300">Instagram : </span></li>
