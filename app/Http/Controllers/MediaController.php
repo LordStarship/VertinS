@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Media;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class MediaController extends Controller
 {
@@ -23,45 +24,59 @@ class MediaController extends Controller
         return redirect()->route('accounts.index')->with('success', 'Social media added successfully!');
     }
 
-    public function show($id)
+    public function update(Request $request, $id)
     {
-        // Find the media record by its ID
-        $media = Media::find($id);
-    
-        // Check if the media record exists
-        if (!$media) {
-            return response()->json(['error' => 'Media not found'], 404);
-        }
-    
-        // Return the media record as a JSON response
-        return response()->json(['data' => $media], 200);
-    }
-    
+        // Log the start of the update process
+        Log::info('Update method started', ['id' => $id, 'request_data' => $request->all()]);
 
-    public function update(Request $request)
-    {
-        // Loop through each media item in the request
-        foreach ($request->input('media', []) as $mediaData) {
-            // Validate each media item
-            $validated = validator($mediaData, [
-                'id' => 'required|exists:medias,id',
+        // Validate the request data
+        try {
+            $validatedData = $request->validate([
                 'url' => 'required|url|max:2048',
-            ])->validate();
-            
-            // Find the media by ID
-            $media = Media::findOrFail($validated['id']);
-            
-            // Ensure the logged-in user is the owner
-            if ($media->admin_id !== auth('web')->id()) {
-                abort(403, 'Unauthorized action.');
-            }
-        
-            // Update the media item
-            $media->update(['url' => $validated['url']]);
+            ]);
+
+            Log::info('Request data validated', ['validated_data' => $validatedData]);
+        } catch (\Exception $e) {
+            Log::error('Validation failed', [
+                'error_message' => $e->getMessage(),
+                'request_data' => $request->all(),
+            ]);
+            return redirect()->route('accounts.index')->withErrors('Validation failed.');
         }
-    
-        return redirect()->route('accounts.index')->with('success', 'Social media updated successfully.');
+
+        // Find the media record
+        try {
+            $media = Media::findOrFail($id);
+            Log::info('Media record found', ['media' => $media]);
+        } catch (\Exception $e) {
+            Log::error('Media record not found', [
+                'id' => $id,
+                'error_message' => $e->getMessage(),
+            ]);
+            return redirect()->route('accounts.index')->withErrors('Media not found.');
+        }
+
+        // Update the media record
+        try {
+            $media->url = $validatedData['url'];
+            $media->save();
+
+            Log::info('Media record updated successfully', ['media' => $media]);
+        } catch (\Exception $e) {
+            Log::error('Error saving media record', [
+                'media' => $media,
+                'error_message' => $e->getMessage(),
+            ]);
+            return redirect()->route('accounts.index')->withErrors('Error saving media.');
+        }
+
+        // Debugging purpose log for dd() equivalent
+        Log::debug('Media after update', ['media' => $media]);
+
+        // Return success response
+        return redirect()->route('accounts.index')->with('success', 'Social media updated successfully!');
     }
+
 
     public function destroy($id)
     {

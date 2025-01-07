@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\DetailController;
@@ -58,30 +59,12 @@ Route::get('/testing/{id}', function($id){
         // dd($post);
 });
 
-
-Route::get('/about', function () {
-    return view('about',['title' => 'About Us']);
-});
-
-// Route::get('/', function () {
-//     return view('avalestial',['title' => "Ava'Lestial Store"]);
-// })->name('home');
-
-Route::get('/', [ListController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/product/{id}', [DetailController::class, 'index'])->name('product');
+Route::post('/product/{id}/increment-message-count', [DetailController::class, 'incrementMessageCount']);
 
-Route::get('/contact', function () {
-    return view('contact',['title' => 'Contact Us']);
-});
-
-Route::get('/category', function () {
-    return view('category',['title' => 'Category Page']);
-});
-
-// Route::get('/product', function () {
-//     return view('product',['title' => 'Product Details']);
-// });
+Route::get('/products-list/{category_id?}', [ListController::class, 'index'])->name('list');
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('products', ProductController::class);

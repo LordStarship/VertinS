@@ -52,14 +52,14 @@
                 </form>
             </div>
         </div>
-        <div class="p-4 w-full flex flex-col">
+        <div class="p-4 w-full flex flex-col overflow-x-auto">
             <div class="container mx-auto p-6">
                 <div class="h-1/6 flex flex-col">
                     <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">
                         <p class="text-primary text-3xl font-bold">Add Product</p>
                     </div>
                 </div>
-                <div class="h-5/6 overflow-x-auto">
+                <div class="h-5/6">
                     <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-2 gap-6">
                         @csrf
                         <div class="col-span-1">

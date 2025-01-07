@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Admins;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
 
 class SignUpController extends Controller
 {
     public function index() {
-        $admins = Admins::all();
+        $admins = Admin::all();
         return view('signup', compact('admins'));
     }
     public function signup(Request $request)
@@ -30,7 +30,7 @@ class SignUpController extends Controller
         $hashedPassword = Hash::make($request->input('signup-password'));
 
         // Store the new admin
-        Admins::create([
+        Admin::create([
             'name' => $request->input('username'),
             'email' => $request->input('email'),
             'password' => $hashedPassword,
