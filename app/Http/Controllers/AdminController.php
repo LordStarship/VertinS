@@ -17,10 +17,10 @@ class AdminController extends Controller
                     $editData = json_encode(['id' => $row->id, 'name' => $row->name, 'email' => $row->email]);                                        
                     return '
                         <div class="flex items-center justify-center">
-                            <a href="javascript:void(0);" onclick="openEditAdminModal(' . htmlspecialchars($editData) . ')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md">
+                            <a href="javascript:void(0);" onclick="openEditAdminModal(' . htmlspecialchars($editData) . ')" class="p-2 bg-gray-100 hover:bg-gray-400 rounded-md">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
-                            <a href="javascript:void(0);" onclick="openDeleteAdminModal(\'' . $row->id . '\')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md">
+                            <a href="javascript:void(0);" onclick="openDeleteAdminModal(\'' . $row->id . '\')" class="p-2 bg-gray-100 hover:bg-gray-400 rounded-md">
                                 <i class="fa-solid fa-trash"></i>
                             </a>
                         </div>
@@ -44,6 +44,7 @@ class AdminController extends Controller
         $admin->name = $validatedData['name'];
         $admin->email = $validatedData['email'];
         $admin->password = bcrypt($validatedData['password']);
+        $admin->role = 1;
         $admin->save();
 
         return redirect()->route('admins.index')->with('success', 'Admin added successfully');

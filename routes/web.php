@@ -71,8 +71,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/products/search-categories', [ProductController::class, 'searchCategories'])->name('products.searchCategories');
 
     Route::resource('categories', CategoryController::class);
-    Route::resource('accounts', AccountController::class);
+
+    Route::resource('accounts', AccountController::class)->except(['show']);
+    Route::post('/accounts/change-password', [AccountController::class, 'changePassword'])->name('accounts.change-password');
+
     Route::resource('admins', AdminController::class);
+    
     Route::resource('medias', MediaController::class)->except(['create', 'edit']);
 
     Route::delete('pictures/{picture}', [PictureController::class, 'destroy'])->name('pictures.destroy');

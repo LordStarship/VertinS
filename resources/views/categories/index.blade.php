@@ -17,30 +17,38 @@
     <div class="h-screen flex flex-row">
         <div class="w-2/12 flex flex-col bg-primary">
             <div class="h-1/6 flex flex-row items-center justify-center">
-                <p class="text-secondary text-2xl font-bold">ADMIN LIST</p>
+                <a href={{route('home')}}>
+                    <div class="flex-shrink-0">
+                        <img class="h-32 w-32" src={{ asset('storage/img/logo-user-2.png') }} alt="VertinS Logo">
+                    </div>
+                </a>
             </div>
             <div class="h-1/6 flex flex-col items-center justify-center">
-                <p class="mt-4 text-secondary text-xl font-medium">{{ session('username') }}</p>
-                <p class="mt-4 text-secondary text-lg font-normal">Admin</p>
+                <p class="mt-4 text-secondary text-xl font-medium">Welcome, {{ session('username') }}!</p>
+                <p class="mt-4 text-secondary text-lg font-normal italic">
+                    {{ session('role') == 0 ? 'Superadmin' : 'Admin' }}
+                </p>
             </div>
             <div class="h-3/6 flex flex-col items-center justify-center space-y-3">
                 <a href="{{ route('categories.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary bg-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                   class="py-2 w-4/5 flex items-center border border-secondary bg-secondary rounded-md cursor-pointer">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/category-inactive.png') }}" alt="Category Icon">
                     <p class="ml-4 text-primary text-base font-medium">Category</p>
                 </a>
                 <a href="{{ route('products.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-gray-500">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/products-active.png') }}" alt="Products Icon">
                     <p class="ml-4 text-secondary text-base font-light">Products</p>
                 </a>
-                <a href="{{ route('admins.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
-                    <img class="w-5 ml-4" src="{{ asset('storage/img/admin-active.png') }}" alt="Account Info Icon">
-                    <p class="ml-4 text-secondary text-base font-light">Admin List</p>
-                </a>
+                @if (session('role') == 0)
+                    <a href="{{ route('admins.index') }}" 
+                       class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-gray-500">
+                        <img class="w-5 ml-4" src="{{ asset('storage/img/admin-active.png') }}" alt="Admin List Icon">
+                        <p class="ml-4 text-secondary text-base font-light">Admin List</p>
+                    </a>
+                @endif
                 <a href="{{ route('accounts.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-gray-500">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/account-info-active.png') }}" alt="Account Info Icon">
                     <p class="ml-4 text-secondary text-base font-light">Account Info</p>
                 </a>
@@ -60,7 +68,7 @@
                 <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">
                     <p class="text-primary text-3xl font-bold">Categories List</p>
                     <div class="flex flex-row ml-auto">
-                        <a href="javascript:void(0);" onclick="openAddModal()" class="px-2 bg-primary rounded-md flex items-center justify-center cursor-pointer">
+                        <a href="javascript:void(0);" onclick="openAddModal()" class="px-2 bg-primary rounded-md flex items-center justify-center cursor-pointer hover:bg-primary-passive">
                             <p class="text-secondary text-md font-medium">Add New Category</p>
                         </a>
                     </div>
@@ -86,7 +94,7 @@
             <form id="addModalForm" action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input id="addCategoryName" type="text" name="name" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Category Name" required>
-                <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md">Ok</button>
+                <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md hover:bg-primary-passive">Ok</button>
             </form>
         </div>
     </div>
@@ -98,7 +106,7 @@
                 @csrf
                 @method('PUT')
                 <input id="editCategoryName" type="text" name="name" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Category Name" required>
-                <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md">Ok</button>
+                <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md hover:bg-primary-passive">Ok</button>
             </form>
         </div>
     </div>
@@ -108,8 +116,8 @@
             <h2 class="text-center text-xl font-semibold mb-4">Confirm Delete</h2>
             <p class="text-center mb-6">Are you sure you want to delete this category?</p>
             <div class="flex justify-center">
-                <button id="confirmDelete" class="mr-4 bg-red-500 text-white px-4 py-2 rounded-md">Ok</button>
-                <button onclick="closeDeleteModal()" class="bg-gray-300 px-4 py-2 rounded-md">Cancel</button>
+                <button id="confirmDelete" class="mr-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">Ok</button>
+                <button onclick="closeDeleteModal()" class="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
             </div>
         </div>
     </div>

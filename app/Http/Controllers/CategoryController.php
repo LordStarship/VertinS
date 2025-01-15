@@ -18,10 +18,10 @@ class CategoryController extends Controller
                 ->addColumn('actions', function ($row) {
                     return '
                         <div class="flex items-center justify-center">
-                            <a href="javascript:void(0);" onclick="openEditModal(\'' . $row->id . '\', \'' . $row->name . '\')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md">
+                            <a href="javascript:void(0);" onclick="openEditModal(\'' . $row->id . '\', \'' . $row->name . '\')" class="p-2 bg-gray-100 hover:bg-gray-400 rounded-md">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
-                            <a href="javascript:void(0);" onclick="openDeleteModal(\'' . $row->id . '\', \'' . $row->name . '\')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md">
+                            <a href="javascript:void(0);" onclick="openDeleteModal(\'' . $row->id . '\', \'' . $row->name . '\')" class="p-2 bg-gray-100 hover:bg-gray-400 rounded-md">
                                 <i class="fa-solid fa-trash"></i>
                             </a>
                         </div>

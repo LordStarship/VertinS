@@ -18,30 +18,38 @@
     <div class="h-screen flex flex-row">
         <div class="w-2/12 flex flex-col bg-primary">
             <div class="h-1/6 flex flex-row items-center justify-center">
-                <p class="text-secondary text-2xl font-bold">ADMIN LIST</p>
+                <a href={{route('home')}}>
+                    <div class="flex-shrink-0">
+                        <img class="h-32 w-32" src={{ asset('storage/img/logo-user-2.png') }} alt="VertinS Logo">
+                    </div>
+                </a>
             </div>
             <div class="h-1/6 flex flex-col items-center justify-center">
-                <p class="mt-4 text-secondary text-xl font-medium">{{ session('username') }}</p>
-                <p class="mt-4 text-secondary text-lg font-normal">Admin</p>
+                <p class="mt-4 text-secondary text-xl font-medium">Welcome, {{ session('username') }}!</p>
+                <p class="mt-4 text-secondary text-lg font-normal italic">
+                    {{ session('role') == 0 ? 'Superadmin' : 'Admin' }}
+                </p>
             </div>
             <div class="h-3/6 flex flex-col items-center justify-center space-y-3">
                 <a href="{{ route('categories.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-gray-500">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/category-active.png') }}" alt="Category Icon">
                     <p class="ml-4 text-secondary text-base font-light">Category</p>
                 </a>
                 <a href="{{ route('products.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary bg-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                   class="py-2 w-4/5 flex items-center border border-secondary bg-secondary rounded-md cursor-pointer">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/products-inactive.png') }}" alt="Products Icon">
                     <p class="ml-4 text-primary text-base font-medium">Products</p>
                 </a>
-                <a href="{{ route('admins.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
-                    <img class="w-5 ml-4" src="{{ asset('storage/img/admin-active.png') }}" alt="Account Info Icon">
-                    <p class="ml-4 text-secondary text-base font-light">Admin List</p>
-                </a>
+                @if (session('role') == 0)
+                    <a href="{{ route('admins.index') }}" 
+                       class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-gray-500">
+                        <img class="w-5 ml-4" src="{{ asset('storage/img/admin-active.png') }}" alt="Admin List Icon">
+                        <p class="ml-4 text-secondary text-base font-light">Admin List</p>
+                    </a>
+                @endif
                 <a href="{{ route('accounts.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-gray-500">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/account-info-active.png') }}" alt="Account Info Icon">
                     <p class="ml-4 text-secondary text-base font-light">Account Info</p>
                 </a>
@@ -61,7 +69,7 @@
                 <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">
                     <p class="text-primary text-3xl font-bold">Product List</p>
                     <div class="flex flex-row ml-auto">
-                        <a href={{ route('products.create')}} class="px-2 bg-primary rounded-md flex items-center justify-center cursor-pointer">
+                        <a href={{ route('products.create')}} class="px-2 bg-primary rounded-md flex items-center justify-center cursor-pointer hover:bg-primary-passive">
                             <p class="  text-secondary text-md font-bold">Add New Product</p>
                         </a>
                     </div>
@@ -93,7 +101,7 @@
             <p id="deleteMessage" class="mb-6"></p>
             <div class="flex justify-end gap-4">
                 <button onclick="closeDeleteModal()" class="py-2 px-4 bg-gray-300 hover:bg-gray-400 text-gray-700 rounded">Cancel</button>
-                <button id="confirmDeleteButton" class="py-2 px-4 bg-red-500 hover:bg-red-600 text-white rounded">Delete</button>
+                <button id="confirmDeleteButton" class="py-2 px-4 bg-red-500 hover:bg-red-700 text-white rounded">Delete</button>
             </div>
         </div>
     </div>

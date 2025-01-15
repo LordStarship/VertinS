@@ -1,5 +1,5 @@
 <div class="w-full h-2/6 bg-primary flex flex-col items-center justify-center">
-    <a href="/" >
+    <a href={{route('home')}}>
         <div class="flex-shrink-0">
             <img class="h-20 w-20" src={{ asset('storage/img/logo-user-2.png') }} alt="VertinS Logo">
         </div>

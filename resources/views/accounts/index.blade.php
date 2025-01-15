@@ -18,30 +18,38 @@
     <div class="h-screen flex flex-row">
         <div class="w-2/12 flex flex-col bg-primary">
             <div class="h-1/6 flex flex-row items-center justify-center">
-                <p class="text-secondary text-2xl font-bold">ADMIN LIST</p>
+                <a href={{route('home')}}>
+                    <div class="flex-shrink-0">
+                        <img class="h-32 w-32" src={{ asset('storage/img/logo-user-2.png') }} alt="VertinS Logo">
+                    </div>
+                </a>
             </div>
             <div class="h-1/6 flex flex-col items-center justify-center">
-                <p class="mt-4 text-secondary text-xl font-medium">{{ session('username') }}</p>
-                <p class="mt-4 text-secondary text-lg font-normal">Admin</p>
+                <p class="mt-4 text-secondary text-xl font-medium">Welcome, {{ session('username') }}!</p>
+                <p class="mt-4 text-secondary text-lg font-normal italic">
+                    {{ session('role') == 0 ? 'Superadmin' : 'Admin' }}
+                </p>
             </div>
             <div class="h-3/6 flex flex-col items-center justify-center space-y-3">
                 <a href="{{ route('categories.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-gray-500">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/category-active.png') }}" alt="Category Icon">
                     <p class="ml-4 text-secondary text-base font-light">Category</p>
                 </a>
                 <a href="{{ route('products.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-gray-500">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/products-active.png') }}" alt="Products Icon">
                     <p class="ml-4 text-secondary text-base font-light">Products</p>
                 </a>
-                <a href="{{ route('admins.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
-                    <img class="w-5 ml-4" src="{{ asset('storage/img/admin-active.png') }}" alt="Account Info Icon">
-                    <p class="ml-4 text-secondary text-base font-light">Admin List</p>
-                </a>
+                @if (session('role') == 0)
+                    <a href="{{ route('admins.index') }}" 
+                       class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-gray-500">
+                        <img class="w-5 ml-4" src="{{ asset('storage/img/admin-active.png') }}" alt="Admin List Icon">
+                        <p class="ml-4 text-secondary text-base font-light">Admin List</p>
+                    </a>
+                @endif
                 <a href="{{ route('accounts.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary bg-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                   class="py-2 w-4/5 flex items-center border border-secondary bg-secondary rounded-md cursor-pointer">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/account-info-inactive.png') }}" alt="Account Info Icon">
                     <p class="ml-4 text-primary text-base font-medium">Account Info</p>
                 </a>
@@ -72,15 +80,15 @@
                     <input class="border border-grey-600 text-primary text-center font-medium" disabled value="{{ session('useremail') }}"></p>
                 </div>
                 <div class="flex">
-                    <button onclick="openChangePasswordModal()" class="mt-8 p-2 px-8 bg-primary font-medium rounded-md text-secondary flex items-center justify-center cursor-pointer">Change Password</button>
+                    <button onclick="openChangePasswordModal()" class="mt-8 p-2 px-8 bg-primary font-medium rounded-md text-secondary flex items-center justify-center cursor-pointer hover:bg-primary-passive">Change Password</button>
                 </div>  
                 <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">
 
                 </div>
                 <div class="mt-4">
-                    <a href="javascript:void(0);" onclick="openAddMediaModal()" class="mb-4 px-2 h-1/6 w-1/6 bg-primary rounded-md flex items-center justify-center cursor-pointer">
-                        <p class="text-secondary text-md font-medium">Add New Media</p>
-                    </a>
+                    <div class="flex">
+                        <button onclick="openAddMediaModal()" class="mb-4   x p-2 px-8 bg-primary font-medium rounded-md text-secondary flex items-center justify-center cursor-pointer hover:bg-primary-passive">Add New Media</button>
+                    </div> 
                     <table id="mediaTable" class="min-w-full border-collapse border border-gray-300">
                         <thead>
                             <tr>
@@ -92,7 +100,7 @@
                     </table>
                 </div>     
                 <div class="flex flex-row ml-auto">
-                    <button onclick="openEditUserModal()" class="mt-8 p-2 px-8 bg-primary font-medium rounded-md text-secondary flex items-center justify-center cursor-pointer">Edit</button>
+                    <button onclick="openEditUserModal()" class="mt-16 mb-4 p-2 px-8 bg-primary font-medium rounded-md text-secondary flex items-center justify-center cursor-pointer hover:bg-primary-passive">Edit</button>
                 </div>    
             </div>
         </div>
@@ -110,8 +118,8 @@
                         <label for="url" class="block text-primary font-medium">URL</label>
                         <input id="url" type="url" name="url" class="w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., https://twitter.com/yourprofile" required>
                     </div>
-                    <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md">Save</button>
-                    <button type="button" onclick="closeAddMediaModal()" class="mt-4 bg-gray-300 text-black w-full p-2 rounded-md">Cancel</button>
+                    <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md hover:bg-primary-passive">Save</button>
+                    <button type="button" onclick="closeAddMediaModal()" class="mt-4 bg-gray-300 text-black w-full p-2 rounded-md hover:bg-gray-400">Cancel</button>
                 </form>
             </div>
         </div>
@@ -130,8 +138,8 @@
                         <label for="edit-url" class="block text-primary font-medium">URL</label>
                         <input id="edit-url" type="url" name="url" class="w-full p-2 border border-gray-300 rounded-md" required>
                     </div>
-                    <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md">Save</button>
-                    <button type="button" onclick="closeEditMediaModal()" class="mt-4 bg-gray-300 text-black w-full p-2 rounded-md">Cancel</button>
+                    <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md hover:bg-primary-passive">Save</button>
+                    <button type="button" onclick="closeEditMediaModal()" class="mt-4 bg-gray-300 text-black w-full p-2 rounded-md hover:bg-gray-400">Cancel</button>
                 </form>
             </div>
         </div>
@@ -141,8 +149,8 @@
                 <h2 class="text-center text-xl font-semibold mb-4">Confirm Delete</h2>
                 <p class="text-center mb-6">Are you sure you want to delete this category?</p>
                 <div class="flex justify-center">
-                    <button id="confirmDelete" class="mr-4 bg-red-500 text-white px-4 py-2 rounded-md">Ok</button>
-                    <button onclick="closeDeleteMediaModal()" class="bg-gray-300 px-4 py-2 rounded-md">Cancel</button>
+                    <button id="confirmDelete" class="mr-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">Ok</button>
+                    <button onclick="closeDeleteMediaModal()" class="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
                 </div>
             </div>
         </div>
@@ -161,7 +169,7 @@
                         <label for="email" class="block text-primary font-medium">Email</label>
                         <input id="email" type="email" name="email" class="w-full p-2 border border-gray-300 rounded-md" value="{{ session('useremail') }}" required>
                     </div>
-                    <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md">Save</button>
+                    <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md hover:bg-primary-passive">Save</button>
                 </form>
             </div>
         </div>
@@ -169,21 +177,27 @@
         <div id="changePasswordModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
             <div class="bg-white p-8 rounded-md w-1/3">
                 <h2 class="text-center text-xl font-semibold mb-4">Change Your Password</h2>
-                <form id="changePasswordForm" method="POST" action="{{ route('accounts.password') }}">
+                <form id="changePasswordForm" method="POST" action="{{ route('accounts.change-password') }}">
                     @csrf
-                    @method('PUT')
                     <div class="mb-4">
-                        <label for="username" class="block text-primary font-medium">Username</label>
-                        <input id="username" type="text" name="name" class="w-full p-2 border border-gray-300 rounded-md" value="{{ session('username') }}" required>
+                        <label for="old_password" class="block text-primary font-medium">Old Password</label>
+                        <input id="old_password" type="password" name="old_password" class="w-full p-2 border border-gray-300 rounded-md" required>
                     </div>
                     <div class="mb-4">
-                        <label for="email" class="block text-primary font-medium">Email</label>
-                        <input id="email" type="email" name="email" class="w-full p-2 border border-gray-300 rounded-md" value="{{ session('useremail') }}" required>
+                        <label for="new_password" class="block text-primary font-medium">New Password</label>
+                        <input id="new_password" type="password" name="new_password" class="w-full p-2 border border-gray-300 rounded-md" required>
                     </div>
-                    <button type="submit" class="mt-4 bg-primary text-white w-full p-2 rounded-md">Save</button>
+                    <div class="mb-4">
+                        <label for="confirm_new_password" class="block text-primary font-medium">Confirm New Password</label>
+                        <input id="confirm_new_password" type="password" name="confirm_new_password" class="w-full p-2 border border-gray-300 rounded-md" required>
+                        <small id="passwordMismatchError" class="text-red-500 hidden">Passwords do not match.</small>
+                    </div>
+                    <button type="submit" id="submitBtn" class="mt-4 bg-gray-400 text-white w-full p-2 rounded-md cursor-not-allowed" disabled>
+                        Save
+                    </button>
                 </form>
             </div>
-        </div>
+        </div>        
 
     </div>
 </body>
@@ -280,7 +294,47 @@
         }
         closeDeleteModal();
     });
-    
+
+    function openChangePasswordModal() {
+        const modal = document.getElementById('changePasswordModal');
+        modal.classList.remove('hidden');
+
+        // Lazy load the script if it's not already initialized
+        if (!modal.dataset.initialized) {
+            const newPassword = document.getElementById('new_password');
+            const confirmNewPassword = document.getElementById('confirm_new_password');
+            const submitBtn = document.getElementById('submitBtn');
+            const error = document.getElementById('passwordMismatchError');
+
+            function validatePasswords() {
+                if (newPassword.value === confirmNewPassword.value && newPassword.value !== '') {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                    submitBtn.classList.add('bg-primary', 'cursor-pointer', 'hover:bg-primary-passive');
+                    error.classList.add('hidden');
+                } else {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
+                    submitBtn.classList.remove('bg-primary', 'cursor-pointer');
+                    if (confirmNewPassword.value !== '') {
+                        error.classList.remove('hidden');
+                    }
+                }
+            }
+
+            newPassword.addEventListener('input', validatePasswords);
+            confirmNewPassword.addEventListener('input', validatePasswords);
+
+            // Mark the modal as initialized to avoid re-binding the listeners
+            modal.dataset.initialized = true;
+        }
+    }
+
+    function closeChangePasswordModal() {
+        document.getElementById('changePasswordModal').classList.add('hidden');
+    }
+
+
     document.querySelectorAll('.fixed').forEach(modal => {
         modal.addEventListener('click', function (event) {
             if (event.target === modal) {

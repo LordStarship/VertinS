@@ -14,30 +14,38 @@
     <div class="h-screen flex flex-row">
         <div class="w-2/12 flex flex-col bg-primary">
             <div class="h-1/6 flex flex-row items-center justify-center">
-                <p class="text-secondary text-2xl font-bold">ADMIN LIST</p>
+                <a href={{route('home')}}>
+                    <div class="flex-shrink-0">
+                        <img class="h-32 w-32" src={{ asset('storage/img/logo-user-2.png') }} alt="VertinS Logo">
+                    </div>
+                </a>
             </div>
             <div class="h-2/6 flex flex-col items-center justify-center">
-                <p class="mt-4 text-secondary text-xl font-medium">{{ session('username') }}</p>
-                <p class="mt-4 text-secondary text-lg font-normal">Admin</p>
+                <p class="mt-4 text-secondary text-xl font-medium">Welcome, {{ session('username') }}!</p>
+                <p class="mt-4 text-secondary text-lg font-normal italic">
+                    {{ session('role') == 0 ? 'Superadmin' : 'Admin' }}
+                </p>
             </div>
             <div class="h-3/6 flex flex-col items-center justify-center space-y-3">
                 <a href="{{ route('categories.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-gray-500">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/category-active.png') }}" alt="Category Icon">
                     <p class="ml-4 text-secondary text-base font-light">Category</p>
                 </a>                
                 <a href="{{ route('products.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary bg-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                   class="py-2 w-4/5 flex items-center border border-secondary bg-secondary rounded-md cursor-pointer">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/products-inactive.png') }}" alt="Products Icon">
                     <p class="ml-4 text-primary text-base font-medium">Products</p>
                 </a>
-                <a href="{{ route('admins.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
-                    <img class="w-5 ml-4" src="{{ asset('storage/img/admin-active.png') }}" alt="Account Info Icon">
-                    <p class="ml-4 text-secondary text-base font-light">Admin List</p>
-                </a>
+                @if (session('role') == 0)
+                    <a href="{{ route('admins.index') }}" 
+                       class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-gray-500">
+                        <img class="w-5 ml-4" src="{{ asset('storage/img/admin-active.png') }}" alt="Admin List Icon">
+                        <p class="ml-4 text-secondary text-base font-light">Admin List</p>
+                    </a>
+                @endif
                 <a href="{{ route('accounts.index') }}" 
-                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-secondary-light">
+                   class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-gray-500">
                     <img class="w-5 ml-4" src="{{ asset('storage/img/account-info-active.png') }}" alt="Account Info Icon">
                     <p class="ml-4 text-secondary text-base font-light">Account Info</p>
                 </a>
@@ -107,10 +115,10 @@
                         <p class="text-sm text-gray-600 mt-1">First picture is the default thumbnail.</p>
                     </div>
                     <div class="col-span-2 flex justify-end gap-4 pr-4">
-                        <a href="{{ route('products.index') }}" class="py-2 px-4 rounded border-secondary bg-primary text-secondary font-bold">
+                        <a href="{{ route('products.index') }}" class="py-2 px-4 rounded border-secondary bg-primary text-secondary font-bold hover:bg-primary-passive">
                             Cancel
                         </a>
-                        <button type="submit" class="col-span-2 py-2 px-4 rounded border-secondary bg-primary text-secondary font-bold">
+                        <button type="submit" class="col-span-2 py-2 px-4 rounded border-secondary bg-primary text-secondary font-bold hover:bg-primary-passive">
                             Save Changes
                         </button>
                     </div>
