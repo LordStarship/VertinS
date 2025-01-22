@@ -18,7 +18,7 @@
 <body>
     <div class="h-screen flex flex-row">
         <div class="w-2/12 flex flex-col bg-primary">
-            <div class="h-1/6 flex flex-row items-center justify-center">
+            <div class="h-1/6 mt-4 flex flex-row items-center justify-center">
                 <a href={{route('home')}}>
                     <div class="flex-shrink-0">
                         <img class="h-32 w-32" src={{ asset('storage/img/logo-user-2.png') }} alt="VertinS Logo">
@@ -94,7 +94,6 @@
                     <thead>
                         <tr>
                             <th>Title</th>
-                            <th>Description</th>
                             <th>Tags</th>
                             <th>Price</th>
                             <th>Image</th>
@@ -135,7 +134,6 @@
             },
             columns: [
                 { data: 'title', name: 'title' },
-                { data: 'description', name: 'description' },
                 { data: 'categories_count', name: 'categories_count', render: data => `${data} Tags Embed` , orderable: false, searchable: false },
                 { 
                     data: 'price', 

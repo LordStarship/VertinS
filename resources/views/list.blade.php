@@ -8,7 +8,7 @@
                 <!-- Render all categories and their products -->
                 @foreach($categories as $category)
                     <div class="mb-8" data-category-id="{{ $category->id }}">
-                        <h2 class="text-2xl font-bold text-primary mb-4 text-center">{{ $category->name }}</h2>
+                        <h2 class="text-2xl font-bold text-primary mb-6 text-center">{{ $category->name }}</h2>
                         <div class="grid grid-cols-5 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 product-container">
                             @foreach($category->products as $product)
                                 <a href="/product/{{ $product->id }}" 
@@ -30,7 +30,7 @@
                 </div>
                 <!-- Render specific category and its products -->
                 <div class="mb-8" data-category-id="{{ $category->id }}">
-                    <h2 class="text-2xl font-bold text-primary mb-4 text-center">{{ $category->name }}</h2>
+                    <h2 class="text-2xl font-bold text-primary mb-6 text-center">{{ $category->name }}</h2>
                     <div class="grid grid-cols-5 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 product-container">
                         @foreach($category->products as $product)
                             <a href="/product/{{ $product->id }}" class="group flex flex-col items-center text-center">

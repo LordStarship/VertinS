@@ -17,7 +17,7 @@
 <body>
     <div class="h-screen flex flex-row">
         <div class="w-2/12 flex flex-col bg-primary">
-            <div class="h-1/6 flex flex-row items-center justify-center">
+            <div class="h-1/6 mt-4 flex flex-row items-center justify-center">
                 <a href={{route('home')}}>
                     <div class="flex-shrink-0">
                         <img class="h-32 w-32" src={{ asset('storage/img/logo-user-2.png') }} alt="VertinS Logo">
@@ -64,6 +64,19 @@
                 </form>
             </div>
         </div>
+
+        @if (session('error'))
+            <script>
+                alert('{{ session('error') }}');
+            </script>
+        @endif
+        
+        @if (session('success'))
+            <script>
+                alert('{{ session('success') }}');
+            </script>
+        @endif
+        
         <div class="p-8 w-10/12 overflow-y-scroll flex flex-col">
             <div class="h-1/6 flex flex-col">
                 <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">
@@ -194,6 +207,7 @@
             .then(data => {
                 if (data.message === 'Category updated successfully') {
                     closeEditModal();
+                    alert(data.message);
                     location.reload();
                 } else {
                     alert('Failed to update category.');
@@ -227,6 +241,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.message === 'Category deleted successfully') {
+                        alert(data.message);
                         location.reload();
                     } else {
                         alert('Failed to delete category.');

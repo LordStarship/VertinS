@@ -14,7 +14,7 @@
 <body>
     <div class="h-screen flex flex-row overflow-hidden">
         <div class="w-2/12 flex flex-col bg-primary">
-            <div class="h-1/6 flex flex-row items-center justify-center">
+            <div class="h-1/6 mt-4 flex flex-row items-center justify-center">
                 <a href={{route('home')}}>
                     <div class="flex-shrink-0">
                         <img class="h-32 w-32" src={{ asset('storage/img/logo-user-2.png') }} alt="VertinS Logo">
@@ -114,7 +114,7 @@
                             <small class="text-gray-500">You can upload up to 4 images. The first image will be set as the default thumbnail. Hold Shift to select multiple pictures.</small>
                         </div>
                         <div class="col-span-2 pb-8 flex justify-end">
-                            <button type="submit" class="bg-primary text-secondary px-4 py-2 rounded-md hover:bg-primary-passive">
+                            <button type="submit" class="bg-primary text-secondary px-4 py-2 rounded-md font-medium hover:bg-primary-passive">
                                 Add Product
                             </button>
                         </div>
