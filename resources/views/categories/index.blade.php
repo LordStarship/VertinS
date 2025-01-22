@@ -26,7 +26,7 @@
             <div class="h-1/6 flex flex-col items-center justify-center">
                 <p class="mt-4 text-secondary text-xl font-medium">Welcome, {{ session('username') }}!</p>
                 <p class="mt-4 text-secondary text-lg font-normal italic">
-                    {{ session('role') == 0 ? 'Superadmin' : 'Admin' }}
+                    {{ session('role') == '0' ? 'Superadmin' : 'Admin' }}
                 </p>
             </div>
             <div class="h-3/6 flex flex-col items-center justify-center space-y-3">
@@ -40,7 +40,7 @@
                     <img class="w-5 ml-4" src="{{ asset('storage/img/products-active.png') }}" alt="Products Icon">
                     <p class="ml-4 text-secondary text-base font-light">Products</p>
                 </a>
-                @if (session('role') == 0)
+                @if (session('role') == '0')
                     <a href="{{ route('admins.index') }}" 
                        class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-gray-500">
                         <img class="w-5 ml-4" src="{{ asset('storage/img/admin-active.png') }}" alt="Admin List Icon">
@@ -194,6 +194,8 @@
                 if (data.message === 'Category updated successfully') {
                     closeEditModal();
                     location.reload();
+                } else {
+                    alert('Failed to update category.');
                 }
             })
             .catch(error => {

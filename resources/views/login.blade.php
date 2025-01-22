@@ -32,16 +32,16 @@
                                     @endif
                                 </div>
                                 <div class="flex flex-row">
-                                    <a href="{{ route('login') }}" class="w-1/2">
+                                    <a href="{{ route('login') }}" class="w-full">
                                         <button class="w-full py-2 text-center font-bold text-gray-900 border-b-2 border-primary">
                                             Login
                                         </button>
                                     </a>
-                                    <a href="{{ route('signup.page') }}" class="w-1/2">
+                                    {{-- <a href="{{ route('signup.page') }}" class="w-1/2">
                                         <button class="w-full py-2 text-center font-bold text-gray-500 hover:text-gray-900 transition duration-200">
                                             Sign Up
                                         </button>
-                                    </a>  
+                                    </a>   --}}
                                 </div>                    
                             </div>
                             <div>

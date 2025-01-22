@@ -47,6 +47,5 @@ class Product extends Model
     public function thumbnail()
     {
         return $this->hasOne(Picture::class, 'product_id', 'id')->where('is_default', 1); 
-
     }
 }

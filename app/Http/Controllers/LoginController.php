@@ -58,6 +58,7 @@ class LoginController extends Controller
         session()->put([
             'username' => $user->name,
             'useremail' => $user->email,
+            'role' => $user->role,
         ]);
 
         return redirect()->route('products.index');

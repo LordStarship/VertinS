@@ -23,7 +23,7 @@
             <div class="h-2/6 flex flex-col items-center justify-center">
                 <p class="mt-4 text-secondary text-xl font-medium">Welcome, {{ session('username') }}!</p>
                 <p class="mt-4 text-secondary text-lg font-normal italic">
-                    {{ session('role') == 0 ? 'Superadmin' : 'Admin' }}
+                    {{ session('role') == '0' ? 'Superadmin' : 'Admin' }}
                 </p>
             </div>
             <div class="h-3/6 flex flex-col items-center justify-center space-y-3">
@@ -37,7 +37,7 @@
                     <img class="w-5 ml-4" src="{{ asset('storage/img/products-inactive.png') }}" alt="Products Icon">
                     <p class="ml-4 text-primary text-base font-medium">Products</p>
                 </a>
-                @if (session('role') == 0)
+                @if (session('role') == '0')
                     <a href="{{ route('admins.index') }}" 
                        class="py-2 w-4/5 flex items-center border border-secondary rounded-md cursor-pointer hover:bg-gray-500">
                         <img class="w-5 ml-4" src="{{ asset('storage/img/admin-active.png') }}" alt="Admin List Icon">
@@ -60,7 +60,20 @@
                 </form>
             </div>
         </div>
-        <div class="p-4 w-full flex flex-col overflow-x-auto">
+
+        @if (session('error'))
+            <script>
+                alert('{{ session('error') }}');
+            </script>
+        @endif
+        
+        @if (session('success'))
+            <script>
+                alert('{{ session('success') }}');
+            </script>
+        @endif
+        
+        <div class="p-4 w-10/12 flex flex-col overflow-x-auto">
             <div class="container mx-auto p-6">
                 <div class="h-1/6 flex flex-col">
                     <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">
@@ -97,7 +110,7 @@
                         <div class="col-span-2">
                             <label for="images" class="block text-sm font-medium text-gray-700">Images</label>
                             <input type="file" id="images" name="images[]" multiple class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" accept="image/*" required>
-                            <small class="text-gray-500">You can upload up to 4 images. The first image will be set as the default thumbnail.</small>
+                            <small class="text-gray-500">You can upload up to 4 images. The first image will be set as the default thumbnail. Hold Shift to select multiple pictures.</small>
                         </div>
                         <div class="col-span-2 pb-8 flex justify-end">
                             <button type="submit" class="bg-primary text-secondary px-4 py-2 rounded-md hover:bg-primary-passive">

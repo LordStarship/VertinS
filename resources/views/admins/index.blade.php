@@ -26,7 +26,7 @@
             <div class="h-1/6 flex flex-col items-center justify-center">
                 <p class="mt-4 text-secondary text-xl font-medium">Welcome, {{ session('username') }}!</p>
                 <p class="mt-4 text-secondary text-lg font-normal italic">
-                    {{ session('role') == 0 ? 'Superadmin' : 'Admin' }}
+                    {{ session('role') == '0' ? 'Superadmin' : 'Admin' }}
                 </p>
             </div>
             <div class="h-3/6 flex flex-col items-center justify-center space-y-3">
@@ -40,7 +40,7 @@
                     <img class="w-5 ml-4" src="{{ asset('storage/img/products-active.png') }}" alt="Products Icon">
                     <p class="ml-4 text-secondary text-base font-light">Products</p>
                 </a>
-                @if (session('role') == 0)
+                @if (session('role') == '0')
                     <a href="{{ route('admins.index') }}" 
                        class="py-2 w-4/5 flex items-center border border-secondary bg-secondary rounded-md cursor-pointer">
                         <img class="w-5 ml-4" src="{{ asset('storage/img/admin-inactive.png') }}" alt="Admin List Icon">
@@ -63,6 +63,19 @@
                 </form>
             </div>
         </div>
+
+        @if (session('error'))
+            <script>
+                alert('{{ session('error') }}');
+            </script>
+        @endif
+        
+        @if (session('success'))
+            <script>
+                alert('{{ session('success') }}');
+            </script>
+        @endif
+
         <div class="p-8 w-10/12 overflow-y-scroll flex flex-col">
             <div class="h-1/6 flex flex-col">
                 <div class="pb-4 flex flex-row w-full border-b-2 border-gray-300">

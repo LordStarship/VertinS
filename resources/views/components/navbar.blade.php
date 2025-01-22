@@ -9,13 +9,13 @@
           </a>
           <div class="hidden md:block">
             <div class="ml-10 flex items-center justify-center space-x-4">
-              <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-              {{-- <x-nav-link href="/avalestial" :active="request()->is('avalestial')">Ava'Lestial</x-nav-link> --}}
-              <x-nav-link href="{{ route('list') }}">Products List</x-nav-link>
-              {{-- <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link> --}}
-              {{-- <x-nav-link href="/testing" :active="request()->is('testing')">Testing</x-nav-link> --}}
-              
-            </div>
+              <x-nav-link href="{{ route('list') }}" :active="request()->routeIs('list')">
+                  Products List
+              </x-nav-link>
+              <x-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
+                  About
+              </x-nav-link>
+          </div>
           </div>
         </div>
         <div class="hidden md:block">

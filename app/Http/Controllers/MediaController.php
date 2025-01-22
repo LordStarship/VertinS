@@ -10,18 +10,23 @@ class MediaController extends Controller
 {
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'social_media' => 'required|string|max:255',
-            'url' => 'required|url|max:2048',
-        ]);
+        try {   
+            $validatedData = $request->validate([
+                'social_media' => 'required|string|max:255',
+                'url' => 'required|url|max:2048',
+            ]);
 
-        Media::create([
-            'social_media' => $validatedData['social_media'],
-            'url' => $validatedData['url'],
-            'admin_id' => auth('web')->id(),
-        ]);
+            Media::create([
+                'social_media' => $validatedData['social_media'],
+                'url' => $validatedData['url'],
+                'admin_id' => auth('web')->id(),
+            ]);
 
-        return redirect()->route('accounts.index')->with('success', 'Social media added successfully!');
+            return redirect()->route('accounts.index')->with('success', 'Social media added successfully!');
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->route('accounts.index')->with('error', 'Social media data is not valid. Error: '. $e->getMessage());
+        }
     }
 
     public function update(Request $request, $id)
@@ -41,7 +46,7 @@ class MediaController extends Controller
                 'error_message' => $e->getMessage(),
                 'request_data' => $request->all(),
             ]);
-            return redirect()->route('accounts.index')->withErrors('Validation failed.');
+            return redirect()->route('accounts.index')->with('error', 'Media validation failed. Error: '. $e->getMessage());
         }
 
         // Find the media record
@@ -53,7 +58,7 @@ class MediaController extends Controller
                 'id' => $id,
                 'error_message' => $e->getMessage(),
             ]);
-            return redirect()->route('accounts.index')->withErrors('Media not found.');
+            return redirect()->route('accounts.index')->with('error', 'Media not found. Error: '. $e->getMessage());
         }
 
         // Update the media record
@@ -67,7 +72,7 @@ class MediaController extends Controller
                 'media' => $media,
                 'error_message' => $e->getMessage(),
             ]);
-            return redirect()->route('accounts.index')->withErrors('Error saving media.');
+            return redirect()->route('accounts.index')->with('error', 'Error saving media. Error: '. $e->getMessage());
         }
 
         // Debugging purpose log for dd() equivalent
@@ -81,14 +86,14 @@ class MediaController extends Controller
     public function destroy($id)
     {
         $media = Media::findOrFail($id);
-
+        
         // Ensure the logged-in admin owns the media record
         if ($media->admin_id != auth('web')->id()) {
             abort(403, 'Unauthorized action.');
         }
-
+    
         $media->delete();
 
-        return response()->json(['message' => 'Social Media deleted successfully.']);
+        return response()->json(['message' => 'Social Media deleted successfully.']);     
     }
 }

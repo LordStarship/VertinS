@@ -65,7 +65,7 @@ class ProductController extends Controller
             Log::info('Validation passed.', $validated);
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Validation failed.', $e->errors());
-            return redirect()->back()->withErrors($e->errors())->withInput();
+            return redirect()->back()->with('error', 'Error: '. $e->getMessage());
         }
 
         $product = Product::create([
@@ -78,19 +78,24 @@ class ProductController extends Controller
         Log::info('Product created: ', $product->toArray());
 
         $product->categories()->sync($validated['categories']);
-
-        foreach ($validated['images'] as $index => $image) {
-            Log::info('Processing image:', ['name' => $image->getClientOriginalName()]);
-            $path = $image->store('pics', 'public');
-            Picture::create([
-                'name' => $image->getClientOriginalName(),
-                'path' => $path,
-                'is_default' => $index === 0,
-                'product_id' => $product->id,
-                'admin_id' => Auth::guard('web')->id(),
-            ]);
+        
+        try {
+            foreach ($validated['images'] as $index => $image) {
+                Log::info('Processing image:', ['name' => $image->getClientOriginalName()]);
+                $path = $image->store('pics', 'public');
+                Picture::create([
+                    'name' => $image->getClientOriginalName(),
+                    'path' => $path,
+                    'is_default' => $index === 0,
+                    'product_id' => $product->id,
+                    'admin_id' => Auth::guard('web')->id(),
+                ]);
+            }
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('error', 'Error: '. $e->getMessage());
         }
-
+        
         Log::info('Pictures saved.');
 
         return redirect()->route('products.index')->with('success', 'Product added successfully!');
@@ -105,38 +110,38 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        $product = Product::findOrFail($id);
-
-        $validated = $request->validate(Product::rules(true));
-
-        $product->update([
-            'title' => $validated['title'],
-            'description' => $validated['description'],
-            'price' => $validated['price'],
-        ]);
-
-        $product->categories()->sync($validated['categories']);
-
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $index => $image) {
-                $path = $image->store('pics', 'public');
-                Picture::create([
-                    'name' => $image->getClientOriginalName(),
-                    'path' => $path,
-                    'is_default' => false, 
-                    'product_id' => $product->id,
-                    'admin_id' => Auth::guard('web')->id(),
-                    'is_temporary' => true, // Mark as temporary
-                ]);
+        try {
+            $product = Product::findOrFail($id);
+    
+            $validated = $request->validate(Product::rules(true));
+    
+            $product->update([
+                'title' => $validated['title'],
+                'description' => $validated['description'],
+                'price' => $validated['price'],
+            ]);
+    
+            $product->categories()->sync($validated['categories']);
+    
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $index => $image) {
+                    $path = $image->store('pics', 'public');
+                    Picture::create([
+                        'name' => $image->getClientOriginalName(),
+                        'path' => $path,
+                        'is_default' => false, 
+                        'product_id' => $product->id,
+                        'admin_id' => Auth::guard('web')->id(),
+                    ]);
+                }
+                return redirect()->route('products.edit', $id)->with('success', 'Images added successfully.');
             }
-            return redirect()->route('products.edit', $id)->with('success', 'Images added successfully.');
+    
+            return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('error', 'Error: '. $e->getMessage());
         }
-
-        Picture::where('product_id', $product->id)
-            ->where('is_temporary', true)
-            ->update(['is_temporary' => false]);
-
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 
     public function destroy($id)

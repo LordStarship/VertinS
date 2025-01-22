@@ -11,7 +11,7 @@
     <script src="https://kit.fontawesome.com/7a5b7d67a3.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="h-full">
+<body class="h-screen">
     <x-navbar></x-navbar>
       <main>
           {{ $slot }}
