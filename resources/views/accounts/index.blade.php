@@ -13,6 +13,7 @@
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://kit.fontawesome.com/7a5b7d67a3.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="icon" type="image/x-icon" href= {{ asset('storage/img/logo.png') }}>
 </head>
 <body>
     <div class="h-screen flex flex-row">
@@ -160,7 +161,7 @@
         <div id="deleteMediaModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
             <div class="bg-white p-8 rounded-md w-1/3">
                 <h2 class="text-center text-xl font-semibold mb-4">Confirm Delete</h2>
-                <p class="text-center mb-6">Are you sure you want to delete this category?</p>
+                <p class="text-center mb-6">Are you sure you want to delete this social media?</p>
                 <div class="flex justify-center">
                     <button id="confirmDelete" class="mr-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">Ok</button>
                     <button onclick="closeDeleteMediaModal()" class="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
@@ -298,7 +299,7 @@
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                if (data.message === 'Media deleted successfully') {
+                if (data.message === 'Media deleted successfully.') {
                     location.reload();
                 } else {
                     alert('Failed to delete media.');

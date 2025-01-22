@@ -7,17 +7,17 @@
     <p class="font-medium text-secondary">Relax, be a gamer, be a game lover.</p>
     <div class="my-4 w-10/12 border-b-2 border-secondary"></div>
     <div class="flex flex-row items-center justify-center">
-        <a class="mx-2" href="https://www.facebook.com/profile.php?id=100028264848127">
+        <a class="mx-2" href="https://www.facebook.com/profile.php?id=100028264848127" target="_blank">
             <div class="flex-shrink-0">
                 <img class="h-8 w-8" src={{ asset('storage/img/logo-facebook.png') }} alt="Facebook Icon">
             </div>
         </a>
-        <a class="mx-2" href="https://www.instagram.com/willstanis/?hl=id">
+        <a class="mx-2" href="https://www.instagram.com/willstanis/?hl=id" target="_blank">
             <div class="flex-shrink-0">
                 <img class="h-8 w-8" src={{ asset('storage/img/logo-instagram.png') }} alt="Instagram Icon">
             </div>
         </a>
-        <a class="mx-2" href="https://wa.me/6289694222929">
+        <a class="mx-2" href="https://wa.me/6289694222929" target="_blank">
             <div class="flex-shrink-0">
                 <img class="h-8 w-8" src={{ asset('storage/img/logo-whatsapp.png') }} alt="WhatsApp Icon">
             </div>

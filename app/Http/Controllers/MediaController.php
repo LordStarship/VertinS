@@ -94,6 +94,6 @@ class MediaController extends Controller
     
         $media->delete();
 
-        return response()->json(['message' => 'Social Media deleted successfully.']);     
+        return response()->json(['message' => 'Media deleted successfully.']);     
     }
 }

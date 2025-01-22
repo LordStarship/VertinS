@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://kit.fontawesome.com/7a5b7d67a3.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/x-icon" href= {{ asset('storage/img/logo.png') }}>
 </head>
 <body>
     <div class="h-screen flex flex-row">

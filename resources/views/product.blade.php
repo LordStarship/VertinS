@@ -5,13 +5,18 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-10">
                     <div>
                         <div class="mb-4">
-                            <img id="mainImage" src="{{ asset('storage/' . $defaultPicture->path) }}" alt="{{ $product->title }}" class="w-full h-72 rounded-lg object-cover">
+                            <img id="mainImage" src="{{ asset('storage/' . $defaultPicture->path) }}" alt="{{ $product->title }}" class="w-full h-72 rounded-lg object-cover cursor-pointer" onclick="openLightbox(this.src)">
                         </div>
                         <div class="flex justify-center space-x-4">
                             @foreach($pictures as $picture)
-                                <img src="{{ asset('storage/' . $picture->path) }}" alt="Product Image" class="w-20 h-20 rounded-lg object-cover cursor-pointer"onclick="updateMainImage(this.src)">
+                                <img src="{{ asset('storage/' . $picture->path) }}" alt="Product Image" class="w-20 h-20 rounded-lg object-cover cursor-pointer" onclick="updateMainImage(this.src)">
                             @endforeach
                         </div>
+                    </div>
+
+                    <div id="lightbox" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+                        <span class="absolute top-5 right-5 text-white text-3xl cursor-pointer" onclick="closeLightbox()">&times;</span>
+                        <img id="lightboxImage" src="" alt="Enlarged Image" class="max-w-full max-h-full transform scale-100 transition-transform duration-300">
                     </div>
                   
                     <div>
@@ -63,3 +68,48 @@
         }
     </script>
 </x-layout>
+<script>
+    function updateMainImage(src) {
+        document.getElementById('mainImage').src = src;
+    }
+
+    function openLightbox(src) {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        lightboxImage.src = src;
+        lightbox.classList.remove('hidden');
+    }
+
+    function closeLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        lightbox.classList.add('hidden');
+    }
+
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) {
+            closeLightbox();
+        }
+    });
+
+    document.getElementById('lightboxImage').addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const image = e.currentTarget;
+        const scaleStep = 0.1;
+        let currentScale = parseFloat(getComputedStyle(image).getPropertyValue('--scale')) || 1;
+
+        if (e.deltaY < 0) {
+            currentScale += scaleStep; // Zoom in
+        } else {
+            currentScale = Math.max(0.5, currentScale - scaleStep); // Zoom out, minimum scale 0.5
+        }
+
+        image.style.setProperty('--scale', currentScale);
+        image.style.transform = `scale(${currentScale})`;
+    });
+</script>
+
+<style>
+    #lightboxImage {
+        --scale: 1;
+    }
+</style>
